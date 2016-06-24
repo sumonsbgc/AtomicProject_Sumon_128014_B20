@@ -1,3 +1,9 @@
+<?php
+include_once "../../../vendor/autoload.php";
+use App\Bitm\SEIP128014\Hobby\Hobby;
+$hobby = new Hobby();
+$singleView = $hobby->prepare($_GET)->singleView()
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,28 +25,49 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <form role="form" action="store.php" method="post">
-                <div class="form-group">
-                    <label for="email">Email address:</label>
-                    <input type="text" name="name" class="form-control" id="email">
-                </div>
-                <div class="checkbox">
-                    <label><input type="checkbox" name="hobby[]" value="Playing"> Playing </label>
-                    <label><input type="checkbox" name="hobby[]" value="Coding"> Coding </label>
-                    <label><input type="checkbox" name="hobby[]" value="Reading"> Reading </label>
-                    <label><input type="checkbox" name="hobby[]" value="Gardening"> Gardening </label>
-                    <label><input type="checkbox" name="hobby[]" value="Swimming"> Swimming </label>
-                    <label><input type="checkbox" name="hobby[]" value="Chatting"> Chatting </label>
-                </div>
-                <button type="submit" class="btn btn-default">Submit</button>
-            </form>
+            <div class="jumbotron">
+                <h2>View Your Hobbies Individually</h2>
+                <a class="btn btn-default" href="index.php">Your Hobby List</a>
+            </div>
         </div>
     </div>
 </div>
-
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>#SL</th>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Hobby</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php $sl=1; ?>
+                    <tr>
+                        <td><?php echo $sl; ?></td>
+                        <td><?php echo $singleView->id; ?></td>
+                        <td><?php echo $singleView->name; ?></td>
+                        <td><?php echo $singleView->hobby; ?></td>
+                        <td>
+                            <a class="btn btn-danger" href="delete.php?id=<?php echo $singleView->id; ?>">DELETE</a>
+                            <a class="btn btn-info" href="edit.php?id=<?php echo $singleView->id; ?>">UPDATE</a>
+                            <a class="btn btn-default" href="trash.php?id=<?php echo $singleView->id; ?>">TRASH</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="js/bootstrap.min.js"></script>
+<script src="../../../resource/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>

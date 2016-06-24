@@ -1,4 +1,4 @@
-<?php
+<?php namespace App\Bitm\SEIP128014\Birthday;
 
 /**
  * Created by PhpStorm.

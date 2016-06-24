@@ -1,7 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Web App Develop-PHP
- * Date: 6/6/2016
- * Time: 12:18 PM
- */
+include_once "../../../vendor/autoload.php";
+use App\Bitm\SEIP128014\Hobby\Hobby;
+$hobby = new Hobby();
+$update = $_POST["hobby"];
+$ImplodeUpdate = implode(",",$update);
+$_POST["hobby"] = $ImplodeUpdate;
+$updateHobbies = $hobby->prepare($_POST)->update();

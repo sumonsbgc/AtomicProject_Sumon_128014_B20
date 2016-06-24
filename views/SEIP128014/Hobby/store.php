@@ -6,4 +6,3 @@ $hobbyData = $_POST["hobby"];
 $stringHobbyData = implode(",",$hobbyData);
 $_POST["hobby"] = $stringHobbyData;
 $hobby->prepare($_POST)->store();
-

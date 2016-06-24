@@ -5,7 +5,6 @@ $hobby = new Hobby();
 
 $UpdateHobby = $hobby->prepare($_GET)->singleView();
 $explodeUpdate = explode(",", $UpdateHobby->hobby);
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,18 +29,19 @@ $explodeUpdate = explode(",", $UpdateHobby->hobby);
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <form role="form" action="store.php" method="post">
+            <form role="form" action="update.php" method="post">
                 <div class="form-group">
                     <label for="email">Email address:</label>
                     <input type="text" name="name" class="form-control" id="email" value="<?php echo $UpdateHobby->name; ?>">
+                    <input type="hidden" value="<?php echo $UpdateHobby->id; ?>" name="id">
                 </div>
                 <div class="checkbox">
-                    <label><input type="checkbox" name="hobby[]" value="Playing" <?php echo ->?> > Playing </label>
-                    <label><input type="checkbox" name="hobby[]" value="Coding"<?php if (in_array("Coding", $explodeUpdate)) echo "checked"; ?> > Coding </label>
-                    <label><input type="checkbox" name="hobby[]" value="Reading"> Reading </label>
-                    <label><input type="checkbox" name="hobby[]" value="Gardening"> Gardening </label>
-                    <label><input type="checkbox" name="hobby[]" value="Swimming"> Swimming </label>
-                    <label><input type="checkbox" name="hobby[]" value="Chatting"> Chatting </label>
+                    <label><input type="checkbox" name="hobby[]" value="Playing" <?php if (in_array("Playing", $explodeUpdate)) echo "checked"; ?>> Playing </label>
+                    <label><input type="checkbox" name="hobby[]" value="Coding" <?php if (in_array("Coding", $explodeUpdate)) echo "checked"; ?>> Coding </label>
+                    <label><input type="checkbox" name="hobby[]" value="Reading" <?php if (in_array("Reading", $explodeUpdate)) echo "checked"; ?>> Reading </label>
+                    <label><input type="checkbox" name="hobby[]" value="Gardening" <?php if (in_array("Gardening", $explodeUpdate)) echo "checked"; ?>> Gardening </label>
+                    <label><input type="checkbox" name="hobby[]" value="Swimming" <?php if (in_array("Swimming", $explodeUpdate)) echo "checked"; ?>> Swimming </label>
+                    <label><input type="checkbox" name="hobby[]" value="Chatting" <?php if (in_array("Chatting", $explodeUpdate)) echo "checked"; ?>> Chatting </label>
                 </div>
                 <button type="submit" class="btn btn-default">Submit</button>
             </form>

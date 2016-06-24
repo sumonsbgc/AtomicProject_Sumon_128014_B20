@@ -33,9 +33,10 @@ $hobbyData = $hobby->index();
                 <h2>Display Information about user Hobby</h2>
                 <div class="menu">
                     <a class="btn btn-info" href="create.php">Insert Your Data</a>
+                    <a href="trashList.php" class="btn btn-danger">Trash List</a>
                 </div>
                 <div id="message">
-                    <?php Message::message(); ?>
+                    <?php echo Message::message(); ?>
                 </div>
             </div>
             <div class="table-responsive">
@@ -62,7 +63,7 @@ $hobbyData = $hobby->index();
                             <td><?php echo $Hobby->hobby;?></td>
                             <td>
                                 <a class="btn btn-info" href="view.php?id=<?php echo $Hobby->id; ?>">View</a>
-                                <a class="btn btn-primary" href="update.php?id=<?php echo $Hobby->id; ?>">Update</a>
+                                <a class="btn btn-primary" href="edit.php?id=<?php echo $Hobby->id; ?>">Update</a>
                                 <a class="btn btn-warning" href="delete.php?id=<?php echo $Hobby->id; ?>">Delete</a>
                                 <a class="btn btn-danger" href="trash.php?id=<?php echo $Hobby->id; ?>">Trash</a>
                             </td>
@@ -80,7 +81,7 @@ $hobbyData = $hobby->index();
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="../../../resource/bootstrap/js/bootstrap.min.js"></script>
 <script>
-    jQuery("#message").show.delay(3000).fadeOut();
+    jQuery("#message").show().delay(3000).fadeOut();
 </script>
 </body>
 </html>

@@ -10,8 +10,7 @@ $birthday = new Birthday();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Edit</title>
-
+    <title>Trash List</title>
     <!-- Bootstrap -->
     <link href="../../../resource/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
@@ -27,26 +26,45 @@ $birthday = new Birthday();
     <div class="row">
         <div class="col-lg-12">
             <div class="jumbotron">
-                <h2>Edit Your BirthDate</h2>
                 <a href="index.php" class="btn btn-info">Index Page</a>
+                <a href="index.php" class="btn btn-info">Insert Your Birth Date</a>
             </div>
         </div>
     </div>
 </div>
-
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <form enctype="multipart/form-data" method="post" action="store.php">
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
-                    <input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+            <form enctype="multipart/form-data" method="post" action="recoverMultiple.php" id="multiple">
+                <input class="btn btn-success" type="submit" value="Recover Multiple" name="recover" id="recover">
+                <input class="btn btn-warning" type="submit" value="Delete Multiple" name="delete" id="delete">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <tbody>
+                        <tr>
+                            <th>Select Item</th>
+                            <th>#SL</th>
+                            <th>ID</th>
+                            <th>Email</th>
+                            <th>Birth Date</th>
+                            <th>Action</th>
+                        </tr>
+                        </tbody>
+                        <tbody>
+                        <tr>
+                            <td><input type="checkbox" name="mark[]" value="<?php ?>"></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <a href="recover.php?id=<?php ?>" class="btn btn-info">Recover</a>
+                                <a href="delete.php?id=<?php ?>" class="btn btn-info">Delete</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Birth Date</label>
-                    <input type="date" name="birthdate" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                </div>
-                <button type="submit" class="btn btn-default">Submit</button>
             </form>
         </div>
     </div>

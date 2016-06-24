@@ -6,6 +6,7 @@ class Hobby
     public $id;
     public $hobby;
     public $name;
+    public $trashAt;
     public $conn;
 
 
@@ -24,7 +25,7 @@ class Hobby
 
 
     public function store(){
-        $sql = "INSERT INTO `atomicprojectb20`.`hobby` (`name`,`hobby`) VALUES ( '{$this->name}','{$this->hobby}' )";
+        $sql = "INSERT INTO `atomicprojectb20`.`hobby` (`name`, `hobby`) VALUES ('{$this->name}', '{$this->hobby}');";
         $result = $this->conn->query($sql);
         if($result){
             Message::message("You are Successful to Insert your Data");
@@ -36,7 +37,7 @@ class Hobby
     }
 
     public function index(){
-        $sql = "SELECT * FROM `atomicprojectb20`.`hobby`";
+        $sql = "SELECT * FROM `atomicprojectb20`.`hobby` WHERE `trash_at` IS NULL";
         $result = $this->conn->query($sql);
         $allHobby = array();
         if($result){
@@ -70,7 +71,7 @@ class Hobby
     }
 
     public function update(){
-        $sql = "UPDATE `atomicprojectb20`.`hobby` SET `name` = `{$this->name}` `hobby` =`{$this->hobby}` WHERE `id`={$this->id}";
+         $sql = "UPDATE `atomicprojectb20`.`hobby` SET `name` = '{$this->name}', `hobby` = '{$this->hobby}' WHERE `hobby`.`id` = {$this->id}";
         $result = $this->conn->query($sql);
         if($result){
             Message::message("You are Successful to Update your Data");
@@ -81,8 +82,76 @@ class Hobby
         }
     }
 
+    public function trash(){
+        $this->trashAt = time();
+        $sql = "UPDATE `atomicprojectb20`.`hobby` SET `trash_at` = {$this->trashAt} WHERE `id` = {$this->id}";
+        $result = $this->conn->query($sql);
+        if($result){
+            Message::message("You are Successful to Trash your Data");
+            header("Location: index.php");
+        }else{
+            Message::message("You're not success to Trash your data.");
+            header("Location: index.php");
+        }
+    }
+    public function recover(){
+        $sql = "UPDATE `atomicprojectb20`.`hobby` SET `trash_at` = NULL WHERE `id` = {$this->id}";
+        $result = $this->conn->query($sql);
+        if($result){
+            Message::message("You are Successful to Recover your Data");
+            header("Location: index.php");
+        }else{
+            Message::message("You're not success to Recover your data.");
+            header("Location: index.php");
+        }
+    }
+
+    public function trashList(){
+        $sql = "SELECT * FROM `atomicprojectb20`.`hobby` WHERE `trash_at` IS NOT NULL";
+        $result = $this->conn->query($sql);
+        $trashAllData = array();
+        if ($result){
+            while($row = $result->fetch_object()){
+                $trashAllData[] = $row;
+            }
+        }
+
+        return $trashAllData;
+    }
+
+    public function recoverMultiple($ids){
+        if( ( is_array($ids) ) && ( count($ids)>0 ) ){
+            $IDS = implode(",",$ids);
+            $sql = "UPDATE `atomicprojectb20`.`hobby` SET `trash_at` = NULL WHERE `id` IN ({$IDS})";
+            $result = $this->conn->query($sql);
+            if($result){
+                Message::message("You are Successful to Recover your selected Data");
+                header("Location: index.php");
+            }else{
+                Message::message("You're not successful to Recover your selected data.");
+                header("Location: index.php");
+            }
+        }
+
+    }
+
+    public function deleteMultiple($ids){
+        if ( (is_array($ids)) && (count($ids)>0) ){
+            $IDS = implode(",",$ids);
+            $sql = "DELETE FROM `atomicprojectb20`.`hobby` WHERE `id` IN ({$IDS})";
+            $result = $this->conn->query($sql);
+            if($result){
+                Message::message("You are Successful to Delete your selected Data");
+                header("Location: index.php");
+            }else{
+                Message::message("You're not success to Delete your selected data.");
+                header("Location: index.php");
+            }
+        }
+    }
     public function __construct()
     {
         $this->conn = new \mysqli("localhost","root","","atomicprojectb20") or die ("Sorry Your connection is fail");
     }
+
 }
