@@ -26,6 +26,28 @@ class Email
         return $this;
     }
 
+    public function count(){
+        $sql = "SELECT COUNT(*) AS totalItem FROM `atomicprojectb20`.`email`";
+        $result = $this->conn->query($sql);
+        $row = $result->fetch_object();
+        return $row->totalItem;
+    }
+
+    public function paginator($pageStartFrom=0,$limit=5){
+        $sql = "SELECT * FROM `email` LIMIT {$pageStartFrom},{$limit}";
+        $result = $this->conn->query($sql);
+        $allEmail = array();
+        if($result){
+            while($row = $result->fetch_object()){
+                $allEmail[]=$row;
+            }
+        }
+        return $allEmail;
+    }
+
+
+
+
     public function storeData(){
         $query = "INSERT INTO `atomicprojectb20`.`email` (`email`) VALUES ('".$this->email."')";
         $result = $this->conn->query($query);

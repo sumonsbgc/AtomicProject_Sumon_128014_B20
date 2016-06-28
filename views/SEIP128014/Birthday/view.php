@@ -1,5 +1,9 @@
 <?php
-
+include_once "../../../vendor/autoload.php";
+use App\Bitm\SEIP128014\Birthday\Birthday;
+$bday = new Birthday();
+var_dump($_GET);
+$singleItem = $bday->prepare($_GET)->selectById();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -48,13 +52,13 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td><?php $sl=1; echo $sl; ?></td>
+                        <td><?php echo $singleItem->id; ?></td>
+                        <td><?php echo $singleItem->name; ?></td>
+                        <td><?php $newDate = date("d/m/Y", strtotime($singleItem->bday)); echo $newDate; ?></td>
                         <td>
-                            <a href="edit.php?id=<?php ?>" class="btn btn-info">Update</a>
-                            <a href="delete.php?id=<?php ?>" class="btn btn-info">Delete</a>
+                            <a href="edit.php?id=<?php echo $singleItem->id; ?>" class="btn btn-info">Update</a>
+                            <a href="delete.php?id=<?php echo $singleItem->id; ?>" class="btn btn-info">Delete</a>
                         </td>
                     </tr>
                     </tbody>

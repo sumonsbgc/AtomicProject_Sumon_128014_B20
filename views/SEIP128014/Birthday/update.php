@@ -1,7 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Web App Develop-PHP
- * Date: 6/6/2016
- * Time: 12:18 PM
- */
+include_once "../../../vendor/autoload.php";
+use App\Bitm\SEIP128014\Birthday\Birthday;
+var_dump($_POST);
+if ( isset($_POST['submit']) && !empty($_POST['name']) && !empty($_POST['bday']) ){
+    $bday = new Birthday();
+    $bday->prepare($_POST)->update();
+}

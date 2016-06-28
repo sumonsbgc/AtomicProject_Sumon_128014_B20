@@ -2,6 +2,7 @@
 include_once "../../../vendor/autoload.php";
 use App\Bitm\SEIP128014\Birthday\Birthday;
 $birthday = new Birthday();
+$singleUpdate = $birthday->prepare($_GET)->selectById();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,16 +38,20 @@ $birthday = new Birthday();
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <form enctype="multipart/form-data" method="post" action="store.php">
+            <form enctype="multipart/form-data" method="post" action="update.php">
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
-                    <input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+                    <input type="hidden" name="id" value="<?php echo $singleUpdate->id; ?>">
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputPassword1">Birth Date</label>
-                    <input type="date" name="birthdate" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                    <label>Your Name</label>
+                    <input type="text" name="name" class="form-control"  value="<?php echo $singleUpdate->name ?>"/>
                 </div>
-                <button type="submit" class="btn btn-default">Submit</button>
+                <div class="form-group">
+                    <?php $newDate = date("d-m-Y", strtotime($singleUpdate->bday)); ?>
+                    <label>Birth Date :</label> <?php echo $newDate; ?>
+                    <input type="date" name="bday" class="form-control" value="<?php echo $singleUpdate->bday; ?>" >
+                </div>
+                <button type="submit" name="submit" class="btn btn-default">Update</button>
             </form>
         </div>
     </div>

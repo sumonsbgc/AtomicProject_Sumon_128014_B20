@@ -1,10 +1,37 @@
 <?php
+session_start();
 include_once "../../../vendor/autoload.php";
 use App\Bitm\SEIP128014\ProfilePicture\ProfilePicture;
 use App\Bitm\SEIP128014\Book\Message;
 $profile = new ProfilePicture();
-$image = $profile->selectAllData();
 
+if(array_key_exists('itemPerPage',$_SESSION)) {
+    if (array_key_exists('itemPerPage', $_GET)) {
+        $_SESSION['itemPerPage'] = $_GET['itemPerPage'];
+    }
+}else{
+    $_SESSION['itemPerPage']=5;
+}
+
+$itemPerPage=$_SESSION['itemPerPage'];
+$totalItem=$profile->count();
+$totalPage = ceil($totalItem/$itemPerPage);
+
+$pagination = "";
+
+if(array_key_exists('pageNumber',$_GET)){
+    $pageNumber = $_GET['pageNumber'];
+}else{
+    $pageNumber = 1;
+}
+
+for($i=1; $i<=$totalPage; $i++){
+    $class = ($i==$pageNumber)? "active" : "";
+    $pagination.="<li class='$class'><a href='index.php?pageNumber=$i'>$i</a></li>";
+}
+
+$pageStartFrom = $itemPerPage*($pageNumber-1);
+$image = $profile->paginator($pageStartFrom,$itemPerPage);
 
 ?>
 <!DOCTYPE html>
@@ -31,10 +58,17 @@ $image = $profile->selectAllData();
         <div class="col-lg-12">
             <div class="jumbotron">
                 <h2>Your Profile Picture</h2>
+                <a class="btn btn-info" href="../../../index.php">Home Page</a>
                 <a href="create.php" class="btn btn-info">Insert Your Profile Image</a>
                 <a href="trashList.php" class="btn btn-info">Trash List</a>
                 <div id="message">
-                    <p><?php echo Message::message(); ?></p>
+                    <p>
+                        <?php
+                        if( (array_key_exists('message',$_SESSION)) && ( !empty($_SESSION['message']) ) ) {
+                            echo Message::message();
+                        }
+                      ?>
+                    </p>
                 </div>
             </div>
         </div>
@@ -43,6 +77,20 @@ $image = $profile->selectAllData();
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
+            <div class="floatLeft">
+                <div class="form-group">
+                    <form role="form" action="">
+                        <label for="sel1">Select list:</label>
+                        <select class="form-control" id="sel1" name="itemPerPage">
+                            <option <?php if($itemPerPage == 5){echo "selected"; } ?>>5</option>
+                            <option <?php if($itemPerPage == 10 ){ echo "selected"; } ?>>10</option>
+                            <option <?php if($itemPerPage == 15){echo "selected"; } ?>>15</option>
+                            <option <?php if($itemPerPage==20){echo "selected"; } ?>>20</option>
+                        </select>
+                        <input class="btn btn-default" type="submit" value="Submit" name="submit">
+                    </form>
+                </div>
+            </div>
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
@@ -61,7 +109,7 @@ $image = $profile->selectAllData();
                          $sl++;
                     ?>
                     <tr>
-                        <td><?php echo $sl; ?></td>
+                        <td><?php echo $sl+$pageStartFrom; ?></td>
                         <td><?php echo $img->id; ?></td>
                         <td><?php echo $img->name; ?></td>
                         <td><img src="../../../resource/img/<?php echo $img->image; ?>" alt="" width="200px" height="200px"></td>
@@ -76,6 +124,17 @@ $image = $profile->selectAllData();
                     </tbody>
                 </table>
             </div>
+            <ul class="pagination">
+                <?php if( $pageNumber > 1 ): ?>
+                    <li><a href="index.php?pageNumber=<?php $prev = $pageNumber-1; echo $prev; ?>">Prev</a></li>
+                <?php endif; ?>
+
+                <?php echo $pagination; ?>
+
+                <?php  if( $pageNumber < $totalPage ): ?>
+                    <li><a href="index.php?pageNumber=<?php $next = $pageNumber+1; echo $next;?>">Next</a></li>
+                <?php endif; ?>
+            </ul>
         </div>
     </div>
 </div>

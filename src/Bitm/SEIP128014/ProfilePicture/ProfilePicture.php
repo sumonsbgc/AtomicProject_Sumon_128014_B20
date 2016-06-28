@@ -14,6 +14,25 @@ class ProfilePicture
         $this->conn = new \mysqli("localhost","root","","atomicprojectb20");
     }
 
+    public function count(){
+        $sql = "SELECT COUNT(*) AS totalItem FROM `atomicprojectb20`.`profile`";
+        $result = $this->conn->query($sql);
+        $row = $result->fetch_object();
+        return $row->totalItem;
+    }
+
+    public function paginator($pageStartFrom=0,$limit=5){
+        $sql = "SELECT * FROM `profile` LIMIT {$pageStartFrom}, {$limit}";
+        $result = $this->conn->query($sql);
+        $allImage = array();
+        if($result){
+            while($row = $result->fetch_object()){
+                $allImage[]=$row;
+            }
+        }
+        return $allImage;
+    }
+
     public function prepare( array $data){
         if (array_key_exists("id",$data)){
             $this->id = $data['id'];
@@ -74,7 +93,12 @@ class ProfilePicture
     }
 
     public function updateData(){
-        $sql = "UPDATE `profile` SET `name` = '{$this->name}', `image` = '{$this->image}' WHERE `id`={$this->id}";
+        if(!empty($this->image)) {
+            $sql = "UPDATE `profile` SET `name` = '{$this->name}', `image` = '{$this->image}' WHERE `id`={$this->id}";
+        }
+        else {
+            $sql = "UPDATE `profile` SET `name` = '{$this->name}' WHERE `id`={$this->id}";
+        }
         $result = $this->conn->query($sql);
         if ($result){
             Message::message("<div class=\"alert alert-success\">Success! to Update</div>");

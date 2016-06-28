@@ -1,11 +1,36 @@
 <?php
+session_start();
 include_once("../../../vendor/autoload.php");
 use App\Bitm\SEIP128014\Book\Book;
 use App\Bitm\SEIP128014\Book\Message;
-
 $book = new Book();
-$allBook = $book->index();
+if(array_key_exists('itemPerPage',$_SESSION)) {
+    if (array_key_exists('itemPerPage', $_GET)) {
+        $_SESSION['itemPerPage'] = $_GET['itemPerPage'];
+    }
+}else{
+    $_SESSION['itemPerPage']=5;
+}
 
+$itemPerPage=$_SESSION['itemPerPage'];
+$totalItem=$book->count();
+$totalPage = ceil($totalItem/$itemPerPage);
+
+$pagination = "";
+
+if(array_key_exists('pageNumber',$_GET)){
+    $pageNumber = $_GET['pageNumber'];
+}else{
+    $pageNumber = 1;
+}
+
+for($i=1; $i<=$totalPage; $i++){
+    $class = ($i==$pageNumber)? "active" : "";
+    $pagination.="<li class='$class'><a href='index.php?pageNumber=$i'>$i</a></li>";
+}
+
+$pageStartFrom = $itemPerPage*($pageNumber-1);
+$allBook = $book->paginator($pageStartFrom,$itemPerPage);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,11 +57,15 @@ $allBook = $book->index();
           <div class="col-lg-12 col-md-12">
               <div class="heading">
                  <h1>Book List</h1>
+                  <a class="btn btn-info" href="../../../index.php">Home Page</a>
                   <span><a href="create.php" class="btn btn-info">Add To Book Title</a></span>
                   <span><a href="trashed.php" class="btn btn-info">Trahsed Item</a></span>
               </div>
               <div class="message">
-                  <?php echo Message::message(); ?>
+                  <?php 
+                  if( (array_key_exists('message',$_SESSION)) && ( !empty($_SESSION['message']) ) ) {
+                      echo Message::message();
+                  } ?>
               </div>
           </div>
       </div>
@@ -44,8 +73,22 @@ $allBook = $book->index();
     <div class="container">
         <div class="row">
             <div class="col-ls-12 col-md-12">
+                <div class="floatLeft">
+                    <div class="form-group">
+                        <form role="form" action="">
+                            <label for="sel1">Select list:</label>
+                            <select class="form-control" id="sel1" name="itemPerPage">
+                                <option <?php if($itemPerPage == 5){echo "selected"; } ?>>5</option>
+                                <option <?php if($itemPerPage == 10 ){ echo "selected"; } ?>>10</option>
+                                <option <?php if($itemPerPage == 15){echo "selected"; } ?>>15</option>
+                                <option <?php if($itemPerPage==20){echo "selected"; } ?>>20</option>
+                            </select>
+                            <input class="btn btn-default" type="submit" value="Submit" name="submit">
+                        </form>
+                    </div>
+                </div>
                 <div class="table-responsive">
-                    <table class="table table-bordered">
+                    <table class="table table-striped table-condensed table-bordered table-rounded">
                         <thead>
                             <tr>
                                 <th>Serial</th>
@@ -61,7 +104,7 @@ $allBook = $book->index();
                            $sl++; ?>
 
                             <tr>
-                                <th scope="2"><?php echo $sl; ?></th>
+                                <th scope="2"><?php echo $sl+$pageStartFrom; ?></th>
                                 <td><?php echo $book->id; ?></td>
                                 <td><?php echo $book->title; ?></td>
                                 <td>
@@ -75,6 +118,17 @@ $allBook = $book->index();
                         </tbody>
                     </table>
                 </div>
+                <ul class="pagination">
+                    <?php if( $pageNumber > 1 ): ?>
+                        <li><a href="index.php?pageNumber=<?php $prev = $pageNumber-1; echo $prev; ?>">Prev</a></li>
+                    <?php endif; ?>
+
+                    <?php echo $pagination; ?>
+
+                    <?php  if( $pageNumber < $totalPage ): ?>
+                        <li><a href="index.php?pageNumber=<?php $next = $pageNumber+1; echo $next;?>">Next</a></li>
+                    <?php endif; ?>
+                </ul>
             </div>
         </div>
     </div>

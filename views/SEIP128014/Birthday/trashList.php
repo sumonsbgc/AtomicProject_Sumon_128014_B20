@@ -2,6 +2,7 @@
 include_once "../../../vendor/autoload.php";
 use App\Bitm\SEIP128014\Birthday\Birthday;
 $birthday = new Birthday();
+$trashList = $birthday->trashList();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -51,17 +52,19 @@ $birthday = new Birthday();
                         </tr>
                         </tbody>
                         <tbody>
+                        <?php $sl=0; foreach ($trashList as $list){?>
                         <tr>
-                            <td><input type="checkbox" name="mark[]" value="<?php ?>"></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td><input type="checkbox" name="mark[]" value="<?php echo $list->id; ?>"></td>
+                            <td><?php echo $sl; ?></td>
+                            <td><?php echo $list->id; ?></td>
+                            <td><?php echo $list->name; ?></td>
+                            <td><?php echo $list->bday; ?></td>
                             <td>
-                                <a href="recover.php?id=<?php ?>" class="btn btn-info">Recover</a>
-                                <a href="delete.php?id=<?php ?>" class="btn btn-info">Delete</a>
+                                <a href="recover.php?id=<?php echo $list->id; ?>" class="btn btn-info">Recover</a>
+                                <a href="delete.php?id=<?php echo $list->id; ?>" class="btn btn-danger">Delete</a>
                             </td>
                         </tr>
+                        <?php } ?>
                         </tbody>
                     </table>
                 </div>
@@ -73,5 +76,11 @@ $birthday = new Birthday();
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="../../../resource/bootstrap/js/bootstrap.min.js"></script>
+<script>
+    jQuery("#delete").on("click", function(){
+        document.forms[0].action = "deleteMultiple.php";
+        jQuery("multiple").submit();
+    })
+</script>
 </body>
 </html>

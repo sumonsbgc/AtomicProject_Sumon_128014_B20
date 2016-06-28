@@ -1,7 +1,9 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: Web App Develop-PHP
- * Date: 6/6/2016
- * Time: 12:18 PM
- */
+<?php 
+include_once("../../../vendor/autoload.php");
+use App\Bitm\SEIP128014\City\City;
+
+var_dump($_POST);
+if ( isset($_POST['submit'])) {
+	$city = new City();
+	$city->prepare($_POST)->update();
+}

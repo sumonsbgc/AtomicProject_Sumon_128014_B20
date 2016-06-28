@@ -23,6 +23,25 @@ class Hobby
         return $this;
     }
 
+    public function count(){
+        $sql = "SELECT COUNT(*) AS totalItem FROM `atomicprojectb20`.`hobby`";
+        $result = $this->conn->query($sql);
+        $row = $result->fetch_object();
+        return $row->totalItem;
+    }
+
+    public function paginator($pageStartFrom=0,$limit=5){
+        $sql = "SELECT * FROM `hobby` LIMIT {$pageStartFrom},{$limit}";
+        $result = $this->conn->query($sql);
+        $allHobby = array();
+        if($result){
+            while($row = $result->fetch_object()){
+                $allHobby[]=$row;
+            }
+        }
+        return $allHobby;
+    }
+
 
     public function store(){
         $sql = "INSERT INTO `atomicprojectb20`.`hobby` (`name`, `hobby`) VALUES ('{$this->name}', '{$this->hobby}');";

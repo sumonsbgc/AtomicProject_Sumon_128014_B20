@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Bootstrap 101 Template</title>
+    <title>Create</title>
 
     <!-- Bootstrap -->
     <link href="../../../resource/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -34,14 +34,14 @@
         <div class="col-lg-12">
             <form enctype="multipart/form-data" method="post" action="store.php">
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
-                    <input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+                    <label for="exampleInputEmail1">Name</label>
+                    <input type="text" name="name" class="form-control" id="exampleInputEmail1" placeholder="Name">
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1">Birth Date</label>
-                    <input type="date" name="birthdate" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                    <input type="date" name="bday" class="form-control" id="exampleInputPassword1" placeholder="Birth Date">
                 </div>
-                <button type="submit" class="btn btn-default">Submit</button>
+                <button type="submit" name="submit" class="btn btn-default">Submit</button>
             </form>
         </div>
     </div>

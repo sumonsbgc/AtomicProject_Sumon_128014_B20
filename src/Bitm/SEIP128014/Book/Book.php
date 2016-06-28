@@ -14,6 +14,26 @@ class Book
     public $deleted_at;
     public $trash_at;
 
+
+    public function count(){
+        $sql = "SELECT COUNT(*) AS totalItem FROM `atomicprojectb20`.`book`";
+        $result = $this->conn->query($sql);
+        $row = $result->fetch_object();
+        return $row->totalItem;
+    }
+
+    public function paginator($pageStartFrom=0,$limit=5){
+        $sql = "SELECT * FROM `book` LIMIT {$pageStartFrom},{$limit}";
+        $result = $this->conn->query($sql);
+        $allBook = array();
+        if($result){
+            while($row = $result->fetch_object()){
+                $allBook[]=$row;
+            }
+        }
+        return $allBook;
+    }
+
     public function index(){
         $sql = "SELECT * FROM `book` WHERE `trash_at` IS NULL";
         $result = $this->conn->query($sql);

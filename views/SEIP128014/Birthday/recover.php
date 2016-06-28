@@ -1,7 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sumonsbgc
- * Date: 6/24/2016
- * Time: 8:24 PM
- */
+include_once "../../../vendor/autoload.php";
+use App\Bitm\SEIP128014\Birthday\Birthday;
+$bday = new Birthday();
+$bday->prepare($_GET)->recover();
