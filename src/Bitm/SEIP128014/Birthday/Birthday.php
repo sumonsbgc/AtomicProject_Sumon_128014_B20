@@ -27,7 +27,9 @@ class Birthday
     }
 
     public function store(){
-        $sql = "INSERT INTO `birthday`(`name`, `bday`) VALUES ('{$this->name}', '{$this->bday}')";
+        $repDate = str_replace("/","-",$this->bday);
+        $date = date('Y-m-d', strtotime($repDate));
+        $sql = "INSERT INTO `birthday`(`name`, `bday`) VALUES ('{$this->name}', '{$date}')";
         $result = $this->conn->query($sql);
         if ($result){
             Message::message("<div class=\"alert alert-success\">Your are <strong>Success!</strong></div>");
@@ -70,7 +72,9 @@ class Birthday
     }
 
     public function update(){
-        $sql = "UPDATE `birthday` SET `name`='{$this->name}', `bday`='{$this->bday}' WHERE `id`={$this->id}";
+        $repDate = str_replace("/","-",$this->bday);
+        $date = date("y-m-d", strtotime($repDate));
+        $sql = "UPDATE `birthday` SET `name`='{$this->name}', `bday`='{$date}' WHERE `id`={$this->id}";
         $result = $this->conn->query($sql);
         if ($result){
             Message::message("<div class=\"alert alert-success\">Your are <strong>Success!</strong></div>");

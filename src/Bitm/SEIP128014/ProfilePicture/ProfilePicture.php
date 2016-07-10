@@ -22,7 +22,7 @@ class ProfilePicture
     }
 
     public function paginator($pageStartFrom=0,$limit=5){
-        $sql = "SELECT * FROM `profile` LIMIT {$pageStartFrom}, {$limit}";
+        $sql = "SELECT * FROM `profile` WHERE `trash_at` IS NULL LIMIT {$pageStartFrom},{$limit}";
         $result = $this->conn->query($sql);
         $allImage = array();
         if($result){
@@ -164,7 +164,18 @@ class ProfilePicture
     public function deleteMultiple( array $ids){
         if ( (is_array($ids)) && (count($ids)>0) ){
             $IDS = implode(",",$ids);
-            $sql = "DELETE FROM `profile` WHERE `id` IN {$IDS}";
+            $sql = "DELETE FROM `profile` WHERE `id` IN ({$IDS})";
+
+            $selectSql = "SELECT * FROM `profile` WHERE `id` IN ({$IDS})";
+            $resultSelect = $this->conn->query($selectSql);
+
+            if ($resultSelect){
+                while($row = $resultSelect->fetch_object()){
+                    $images = $row->image;
+                    unlink($_SERVER['DOCUMENT_ROOT'].'AtomicProject_Sumon_128014_B20/resource/img/'.$images);
+                }
+            }
+
             $result = $this->conn->query($sql);
             if ($result) {
                 Message::message("<div class=\"alert alert-success\">Success! to recover Selected Data</div>");

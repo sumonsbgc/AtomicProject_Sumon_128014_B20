@@ -43,7 +43,7 @@
         <div class="col-lg-12">
             <div class="jumbotron" id="textAlign">
                 <h2>Atomic Project For BITM</h2>
-                <h3>Submitted To <a href="https://www.facebook.com/icon.bd051?fref=ufi">M Yameen Hossain</a></h3>
+                <h3>Submitted To <a href="https://www.facebook.com/icon.bd051">M Yameen Hossain</a></h3>
                 <h3>Submitted By <a href="https://www.facebook.com/sumonssbgc">Mohammad Sumon</a></h3>
             </div>
             <div id="textAlign">

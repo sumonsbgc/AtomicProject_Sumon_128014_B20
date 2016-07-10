@@ -1,7 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sumonsbgc
- * Date: 6/23/2016
- * Time: 3:16 AM
- */
+include_once "../../../vendor/autoload.php";
+use App\Bitm\SEIP128014\ProfilePicture\ProfilePicture;
+$profile = new ProfilePicture();
+$profile->deleteMultiple($_POST['mark']);
