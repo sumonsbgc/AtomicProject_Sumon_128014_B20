@@ -43,12 +43,16 @@ $singleView = $book->prepare($_GET)->views();
                     <tr class="success">
                       <th>ID</th>
                       <th>Book Title</th>
+                      <th>Email</th>
+                      <th>Description</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr class="info">
                       <td><?php echo $singleView->id; ?></td>
                       <td><?php echo $singleView->title; ?></td>
+                      <td><?php echo $singleView->email; ?></td>
+                      <td><?php echo $singleView->description; ?></td>
                     </tr>
                   </tbody>
               </table>

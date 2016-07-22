@@ -36,6 +36,8 @@ $list = $city->prepare($_GET)->selectById();
 								<th>ID</th>
 								<th>Name</th>
 								<th>City Name</th>
+								<th>Email</th>
+								<th>Description</th>
 								<th>Action</th>
 							</tr>
 						</thead>
@@ -45,6 +47,8 @@ $list = $city->prepare($_GET)->selectById();
 								<td><?php echo $list->id; ?></td>
 								<td><?php echo $list->name; ?></td>
 								<td><?php echo $list->city; ?></td>
+								<td><?php echo $list->email; ?></td>
+								<td><?php echo $list->description; ?></td>
 								<td>
 									<a href="edit.php?id=<?php echo $list->id; ?>" class="btn btn-success">Update</a>
 									<a href="delete.php?id=<?php echo $list->id; ?>" class="btn btn-warning">Delete</a>

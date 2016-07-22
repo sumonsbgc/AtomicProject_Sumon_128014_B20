@@ -93,6 +93,8 @@ $hobbyData = $hobby->paginator($pageStartFrom,$itemPerPage);
                             <th>ID</th>
                             <th>Name</th>
                             <th>Hobbies</th>
+                            <th>Email</th>
+                            <th>Description</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -107,6 +109,8 @@ $hobbyData = $hobby->paginator($pageStartFrom,$itemPerPage);
                             <td><?php echo $Hobby->id;?></td>
                             <td><?php echo $Hobby->name;?></td>
                             <td><?php echo $Hobby->hobby;?></td>
+                            <td><?php echo $Hobby->email; ?></td>
+                            <td><?php echo $Hobby->description; ?></td>
                             <td>
                                 <a class="btn btn-info" href="view.php?id=<?php echo $Hobby->id; ?>">View</a>
                                 <a class="btn btn-primary" href="edit.php?id=<?php echo $Hobby->id; ?>">Update</a>

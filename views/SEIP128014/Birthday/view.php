@@ -2,7 +2,6 @@
 include_once "../../../vendor/autoload.php";
 use App\Bitm\SEIP128014\Birthday\Birthday;
 $bday = new Birthday();
-var_dump($_GET);
 $singleItem = $bday->prepare($_GET)->selectById();
 ?>
 <!DOCTYPE html>
@@ -45,7 +44,9 @@ $singleItem = $bday->prepare($_GET)->selectById();
                         <tr>
                             <th>#SL</th>
                             <th>ID</th>
+                            <th>Name</th>
                             <th>Email</th>
+                            <th>Description</th>
                             <th>Birth Date</th>
                             <th>Action</th>
                         </tr>
@@ -55,6 +56,8 @@ $singleItem = $bday->prepare($_GET)->selectById();
                         <td><?php $sl=1; echo $sl; ?></td>
                         <td><?php echo $singleItem->id; ?></td>
                         <td><?php echo $singleItem->name; ?></td>
+                        <td><?php echo $singleItem->email; ?></td>
+                        <td><?php echo $singleItem->description; ?></td>
                         <td><?php $newDate = date("d/m/Y", strtotime($singleItem->bday)); echo $newDate; ?></td>
                         <td>
                             <a href="edit.php?id=<?php echo $singleItem->id; ?>" class="btn btn-info">Update</a>

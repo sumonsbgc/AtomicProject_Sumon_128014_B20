@@ -27,8 +27,12 @@
               <input type="text" name="name" class="form-control" placeholder="Your Name">
             </div>
             <div class="form-group">
-              <label for="comment">Summary:</label>
-              <textarea class="form-control" rows="3" name="summary" id="comment"></textarea>
+              <label for="email">Email</label>
+              <input type="text" name="email" class="form-control" id="email" placeholder="Email">
+            </div>
+            <div class="form-group">
+              <label for="description">Summary:</label>
+              <textarea class="form-control" rows="3" name="summary" id="description"></textarea>
             </div>
             <input type="submit" name="submit" value="Submit" class="btn btn-info"/>
           </form>
@@ -36,8 +40,14 @@
       </div>
     </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="../../../resource/assets/js/jquery-3.1.0.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="../../../resource/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../../resource/tinymce_4.4.0/tinymce/js/tinymce/tinymce.min.js"></script>
+    <script>
+      tinymce.init({
+        selector: 'textarea#description'
+      });
+    </script>
   </body>
 </html>

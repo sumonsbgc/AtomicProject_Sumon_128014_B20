@@ -23,8 +23,16 @@
             <div class="col-lg-12">
                 <form role="form" action="store.php" method="post">
                     <div class="form-group">
-                        <label for="email">Email address:</label>
-                        <input type="text" name="name" class="form-control" id="email">
+                        <label for="name">Name :</label>
+                        <input type="text" name="name" class="form-control" id="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="text" name="email" class="form-control" id="email" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <label for="description"> Description</label>
+                        <textarea name="description" id="description" rows="10"></textarea>
                     </div>
                     <div class="checkbox">
                         <label><input type="checkbox" name="hobby[]" value="Playing"> Playing </label>
@@ -39,10 +47,15 @@
             </div>
         </div>
     </div>
-
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="../../../resource/bootstrap/js/bootstrap.min.js"></script>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="../../../resource/assets/js/jquery-3.1.0.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="../../../resource/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../../resource/tinymce_4.4.0/tinymce/js/tinymce/tinymce.min.js"></script>
+    <script>
+        tinymce.init({
+            selector: 'textarea#description'
+        });
+    </script>
 </body>
 </html>

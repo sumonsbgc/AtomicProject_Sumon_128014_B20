@@ -43,6 +43,8 @@ $singleView = $profile->prepare($_GET)->selectById();
                         <th>ID</th>
                         <th>Name</th>
                         <th>Profile Image</th>
+                        <th>Email</th>
+                        <th>Description</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -53,6 +55,8 @@ $singleView = $profile->prepare($_GET)->selectById();
                         <td><?php echo $singleView->id; ?></td>
                         <td><?php echo $singleView->name; ?></td>
                         <td><img src="../../../resource/img/<?php echo $singleView->image; ?>" alt="" width="200px" height="200"></td>
+                        <td><?php echo $singleView->email; ?></td>
+                        <td><?php echo $singleView->description; ?></td>
                         <td>
                             <a class="btn btn-danger" href="delete.php?id=<?php echo $singleView->id; ?>">DELETE</a>
                             <a class="btn btn-info" href="edit.php?id=<?php echo $singleView->id; ?>">UPDATE</a>

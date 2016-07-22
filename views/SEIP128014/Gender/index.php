@@ -91,6 +91,8 @@ $genderList= $gender->paginator($pageStartFrom,$itemPerPage);
                         <th>ID</th>
                         <th>Name</th>
                         <th>Gender</th>
+                        <th>Email</th>
+                        <th>Description</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -101,6 +103,8 @@ $genderList= $gender->paginator($pageStartFrom,$itemPerPage);
                             <td><?php echo $list->id; ?></td>
                             <td><?php echo $list->name; ?></td>
                             <td><?php echo $list->gender; ?></td>
+                            <td><?php echo $list->email; ?></td>
+                            <td><?php echo $list->description; ?></td>
                             <td>
                                 <a href="view.php?id=<?php echo $list->id; ?>" class="btn btn-info">Views</a>
                                 <a href="edit.php?id=<?php echo $list->id; ?>" class="btn btn-success">Update</a>

@@ -62,6 +62,9 @@ $bdData = $birthday->paginator($pageStartFrom,$itemPerPage);
 
                 <a class="btn btn-info" href="../../../index.php">Home Page</a>
                 <a class="btn btn-success" href="create.php">Insert Your Birth Date</a>
+                <a class="btn btn-success" href="pdf.php">Download As PDF</a>
+                <a class="btn btn-success" href="excel.php">Download As Excel</a>
+                <a class="btn btn-success" href="mail.php">Send Mail</a>
                 <a class="btn btn-default" href="trashList.php">Trash List</a>
                 <div id="message">
                     <?php
@@ -74,7 +77,30 @@ $bdData = $birthday->paginator($pageStartFrom,$itemPerPage);
         </div>
     </div>
 </div>
-
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="jumbotron">
+                <form role="form" action="index.php" method="post">
+                    <div class="form-group-sm form-inline">
+                        <label for="title">Filter by Title:</label>
+                        <input class="form-control" type="text" name="filterByTitle" value="" id="title">
+                        <label  for="description">Filter by Description:</label>
+                        <input class="form-control" type="text" name="filterByDescription" value="" id="description">
+                        <button type="submit" class="btn-success btn" name="filter">Submit!</button>
+                    </div>
+                </form>
+                <form role="form" action="index.php" method="get">
+                    <div class="form-group-sm form-inline">
+                        <label for="search">Search:</label>
+                        <input class="form-control" type="text" name="search" value="" id="search">
+                        <button class="btn btn-success" type="submit" name="search">Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
@@ -99,6 +125,8 @@ $bdData = $birthday->paginator($pageStartFrom,$itemPerPage);
                             <th>#SL</th>
                             <th>ID</th>
                             <th>Name</th>
+                            <th>Email</th>
+                            <th >Description</th>
                             <th>Birth Date</th>
                             <th>Action</th>
                        </tr>
@@ -114,11 +142,13 @@ $bdData = $birthday->paginator($pageStartFrom,$itemPerPage);
                            <td><?php echo $sl+$pageStartFrom; ?></td>
                            <td><?php echo $bd->id; ?></td>
                            <td><?php echo $bd->name; ?></td>
+                           <td><?php echo $bd->email; ?></td>
+                           <td><?php echo $bd->description; ?></td>
                            <td><?php echo $newDate; ?></td>
                            <td>
                                <a href="view.php?id=<?php echo $bd->id; ?>" class="btn btn-info">View</a>
                                <a href="edit.php?id=<?php echo $bd->id; ?>" class="btn btn-info">Update</a>
-                               <a href="delete.php?id=<?php echo $bd->id; ?>" class="btn btn-danger">Delete</a>
+                               <a onclick="alertDelete()" href="delete.php?id=<?php echo $bd->id; ?>" class="btn btn-danger">Delete</a>
                                <a href="trash.php?id=<?php echo $bd->id; ?>" class="btn btn-warning">Trash</a>
                            </td>
                        </tr>
@@ -146,6 +176,9 @@ $bdData = $birthday->paginator($pageStartFrom,$itemPerPage);
 <script src="../../../resource/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript">
     jQuery("#message").show().delay(3000).fadeOut();
+    function alertDelete(){
+        confirm("Are You sure? You are deleting One Item.");
+    }
 </script>
 </body>
 </html>

@@ -99,6 +99,8 @@ $image = $profile->paginator($pageStartFrom,$itemPerPage);
                         <th>ID</th>
                         <th>Name</th>
                         <th>Profile Image</th>
+                        <th>Email</th>
+                        <th>Description</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -113,6 +115,8 @@ $image = $profile->paginator($pageStartFrom,$itemPerPage);
                         <td><?php echo $img->id; ?></td>
                         <td><?php echo $img->name; ?></td>
                         <td><img src="../../../resource/img/<?php echo $img->image; ?>" alt="" width="200px" height="200px"></td>
+                        <td><?php echo $img->email; ?></td>
+                        <td><?php echo $img->description; ?></td>
                         <td>
                             <a href="view.php?id=<?php echo $img->id; ?>" class="btn btn-info">View</a>
                             <a href="edit.php?id=<?php echo $img->id; ?>" class="btn btn-info">Update</a>

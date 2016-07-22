@@ -4,6 +4,16 @@ include_once("../../../vendor/autoload.php");
 use App\Bitm\SEIP128014\Summary\Summary;
 use App\Bitm\SEIP128014\Book\Message;
 $summary = new Summary();
+
+$allName = $summary->allName();
+$commaSeparated= implode('","',$allName);
+
+$allSummary = $summary->allSummary();
+$commaSeparatedSummary = implode('","',$allSummary);
+
+/*$allSearch = $summary->selectAll();
+$commaSeparatedAll = implode('","', $allSearch);*/
+
 if(array_key_exists('itemPerPage',$_SESSION)) {
 	if (array_key_exists('itemPerPage', $_GET)) {
 		$_SESSION['itemPerPage'] = $_GET['itemPerPage'];
@@ -29,7 +39,16 @@ for($i=1; $i<=$totalPage; $i++){
 	$pagination.="<li class='$class'><a href='index.php?pageNumber=$i'>$i</a></li>";
 }
 $pageStartFrom = $itemPerPage*($pageNumber-1);
-$summaryList = $summary->paginator($pageStartFrom,$itemPerPage);
+if(strtoupper($_SERVER['REQUEST_METHOD']=='GET')) {
+	$summaryList = $summary->paginator($pageStartFrom,$itemPerPage);
+}
+if(strtoupper($_SERVER['REQUEST_METHOD']=='POST')) {
+	$summaryList = $summary->prepare($_POST)->selectAll();
+}
+if(strtoupper(($_SERVER['REQUEST_METHOD']=='GET')) && isset($_GET['search'])) {
+	$summaryList = $summary->prepare($_GET)->selectAll();
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -62,7 +81,28 @@ $summaryList = $summary->paginator($pageStartFrom,$itemPerPage);
 					<h2>Summary List</h2>
 					<a class="btn btn-info" href="../../../index.php">Home Page</a>
 					<a href="create.php" class="btn btn-info">Add Summary</a>
+					<a class="btn btn-success" href="pdf.php">Download As PDF</a>
+					<a class="btn btn-success" href="excel.php">Download As Excel</a>
+					<a class="btn btn-success" href="mail.php">Send Mail</a>
 					<a href="trashList.php" class="btn btn-info">Trash List</a>
+				</div>
+				<div class="jumbotron">
+					<form role="form" action="index.php" method="post">
+						<div class="form-group-sm form-inline">
+							<label for="title">Filter by Title:</label>
+							<input class="form-control" type="text" name="filterByTitle" value="" id="title">
+							<label  for="summary">Filter by Description:</label>
+							<input class="form-control" type="text" name="filterByDescription" value="" id="summary">
+							<button type="submit" class="btn-success btn" name="filter">Submit!</button>
+						</div>
+					</form>
+					<form role="form" action="index.php" method="get">
+						<div class="form-group-sm form-inline">
+							<label for="search">Search:</label>
+							<input class="form-control" type="text" name="search" value="" id="search">
+							<button class="btn btn-success" type="submit">Search</button>
+						</div>
+					</form>
 				</div>
 				<div class="table-responsive">
 					<table class="table table-bordered table-condensed table-striped table-rounded">
@@ -71,6 +111,7 @@ $summaryList = $summary->paginator($pageStartFrom,$itemPerPage);
 								<th>#SL</th>
 								<th>ID</th>
 								<th>Name</th>
+								<th>Email</th>
 								<th>Summary</th>
 								<th>Action</th>
 							</tr>
@@ -80,7 +121,8 @@ $summaryList = $summary->paginator($pageStartFrom,$itemPerPage);
 							<tr>
 								<td><?php echo $sl+$pageStartFrom; ?></td>
 								<td><?php echo $list->id; ?></td>
-								<td><?php echo $list->name ?></td>
+								<td><?php echo $list->name; ?></td>
+								<td><?php echo $list->email; ?></td>
 								<td width="50%"><?php echo $list->summary; ?></td>
 								<td>
 									<a href="view.php?id=<?php echo $list->id; ?>" class="btn btn-info">View</a>
@@ -93,6 +135,7 @@ $summaryList = $summary->paginator($pageStartFrom,$itemPerPage);
 						</tbody>
 					</table>
 				</div>
+				<?php if((strtoupper($_SERVER['REQUEST_METHOD']=='GET'))&&(empty($_GET['search']))) { ?>
 				<ul class="pagination">
 					<?php if( $pageNumber > 1 ): ?>
 						<li><a href="index.php?pageNumber=<?php $prev = $pageNumber-1; echo $prev; ?>">Prev</a></li>
@@ -104,6 +147,7 @@ $summaryList = $summary->paginator($pageStartFrom,$itemPerPage);
 						<li><a href="index.php?pageNumber=<?php $next = $pageNumber+1; echo $next;?>">Next</a></li>
 					<?php endif; ?>
 				</ul>
+				<?php } ?>
 			</div>
 		</div>
 	</div>
@@ -114,8 +158,32 @@ $summaryList = $summary->paginator($pageStartFrom,$itemPerPage);
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="../../../resource/bootstrap/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+	<link rel="stylesheet" href="/resources/demos/style.css">
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+
 	<script type="text/javascript">
 		jQuery("#message").show().delay(3000).fadeOut();
+	</script>
+	<script>
+		$( function() {
+			var name = [ <?php echo '"'.$commaSeparated.'"'; ?> ];
+			var summary = [ <?php echo '"'.$commaSeparatedSummary.'"'; ?> ];
+			var allSummary = [ <?php echo '"'.$commaSeparated.' '.$commaSeparatedSummary.'"'?>];
+
+			$( "#title" ).autocomplete({
+				source: name
+			});
+
+			$("#summary").autocomplete({
+				source: summary
+			});
+
+			$("#search").autocomplete({
+				source: allSummary
+			})
+		} );
 	</script>
   </body>
 </html>

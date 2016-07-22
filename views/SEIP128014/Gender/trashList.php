@@ -44,6 +44,8 @@ $trashList = $gender->trashList();
                             <th>ID</th>
                             <th>Name</th>
                             <th>Gender</th>
+                            <th>Email</th>
+                            <th>Description</th>
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -55,6 +57,8 @@ $trashList = $gender->trashList();
                                 <td><?php echo $list->id; ?></td>
                                 <td><?php echo $list->name; ?></td>
                                 <td><?php echo $list->gender; ?></td>
+                                <td><?php echo $list->email; ?></td>
+                                <td><?php echo $list->description; ?></td>
                                 <td>
                                     <a href="delete.php?id=<?php echo $list->id; ?>" class="btn btn-warning">Delete</a>
                                     <a href="recover.php?id=<?php echo $list->id; ?>" class="btn btn-info">Recover</a>

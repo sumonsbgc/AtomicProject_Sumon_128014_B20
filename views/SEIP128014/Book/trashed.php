@@ -49,6 +49,8 @@ $trashItem = $book->trashed();
                                 <th>SL No</th>
                                 <th>ID</th>
                                 <th>Book Title</th>
+                                <th>Email</th>
+                                <th>Description</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -64,6 +66,8 @@ $trashItem = $book->trashed();
                                 <td><?php echo $sl?></td>
                                 <td><?php echo $trash->id; ?></td>
                                 <td><?php echo $trash->title; ?></td>
+                                <td><?php echo $trash->email; ?></td>
+                                <td><?php echo $trash->description; ?></td>
                                 <td>
                                     <a class="btn btn-warning" href="delete.php?id=<?php echo $trash->id; ?>">Delete</a>
                                     <a class="btn btn-info" href="recover.php?id=<?php echo $trash->id; ?>">Recover</a>

@@ -28,19 +28,32 @@ $update = $email->prepare($_GET)->views();
         <div class="col-lg-12">
             <form role="form" action="edit.php" method="post">
                 <div class="form-group">
+                    <label for="name">Name :</label>
+                    <input type="text" id="name" class="form-control" name="name" value="<?php echo $update->name; ?>">
+                </div>
+                <div class="form-group">
                     <input type="hidden" name="id" id="pwd" value="<?php echo $update->id; ?>">
-                    <label for="pwd">Email:</label>
-                    <input type="email" name="email" value="<?php echo $update->email; ?>" class="form-control" id="pwd">
+                    <label for="email">Email :</label>
+                    <input type="email" name="email" value="<?php echo $update->email; ?>" class="form-control" id="email">
+                </div>
+                <div class="form-group">
+                    <label for="description">Description :</label>
+                    <textarea name="description" id="description" rows="10"><?php echo $update->description; ?></textarea>
                 </div>
                 <input type="submit" name="update" value="Update" class="btn btn-default">
             </form>
         </div>
     </div>
 </div>
-
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="../../../resource/assets/js/jquery-3.1.0.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="../../../resource/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../../resource/tinymce_4.4.0/tinymce/js/tinymce/tinymce.min.js"></script>
+<script>
+    tinymce.init({
+        selector: 'textarea#description'
+    });
+</script>
 </body>
 </html>

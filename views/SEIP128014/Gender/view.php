@@ -46,6 +46,8 @@ $singleItem = $gender->prepare($_GET)->selectById();
                         <th>ID</th>
                         <th>Name</th>
                         <th>Gender</th>
+                        <th>Email</th>
+                        <th>Description</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -55,6 +57,8 @@ $singleItem = $gender->prepare($_GET)->selectById();
                         <td><?php echo $singleItem->id; ?></td>
                         <td><?php echo $singleItem->name; ?></td>
                         <td><?php echo $singleItem->gender;?></td>
+                        <td><?php echo $singleItem->email;?></td>
+                        <td><?php echo $singleItem->description;?></td>
                         <td>
                             <a href="edit.php?id=<?php echo $singleItem->id; ?>" class="btn btn-info">Update</a>
                             <a href="delete.php?id=<?php echo $singleItem->id; ?>" class="btn btn-info">Delete</a>

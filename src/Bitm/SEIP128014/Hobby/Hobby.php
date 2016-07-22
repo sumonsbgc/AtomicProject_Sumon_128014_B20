@@ -8,7 +8,8 @@ class Hobby
     public $name;
     public $trashAt;
     public $conn;
-
+    public $email;
+    public $description;
 
     public function prepare($data){
         if(array_key_exists("id",$data)){
@@ -20,18 +21,24 @@ class Hobby
         if(array_key_exists("name",$data)){
             $this->name = $data["name"];
         }
+        if(array_key_exists('email',$data)){
+            $this->email = $data['email'];
+        }
+        if(array_key_exists('description',$data)){
+            $this->description = $data['description'];
+        }
         return $this;
     }
 
     public function count(){
-        $sql = "SELECT COUNT(*) AS totalItem FROM `atomicprojectb20`.`hobby`";
+        $sql = "SELECT COUNT(*) AS totalItem FROM `atomicprojectb20`.`hobby` WHERE `trash_at` IS NULL";
         $result = $this->conn->query($sql);
         $row = $result->fetch_object();
         return $row->totalItem;
     }
 
     public function paginator($pageStartFrom=0,$limit=5){
-        $sql = "SELECT * FROM `hobby` LIMIT {$pageStartFrom},{$limit}";
+        $sql = "SELECT * FROM `hobby` WHERE `trash_at` IS NULL LIMIT {$pageStartFrom},{$limit}";
         $result = $this->conn->query($sql);
         $allHobby = array();
         if($result){
@@ -44,7 +51,7 @@ class Hobby
 
 
     public function store(){
-        $sql = "INSERT INTO `atomicprojectb20`.`hobby` (`name`, `hobby`) VALUES ('{$this->name}', '{$this->hobby}');";
+        $sql = "INSERT INTO `atomicprojectb20`.`hobby` (`name`, `hobby`,`email`,`description`) VALUES ('{$this->name}', '{$this->hobby}','{$this->email}','{$this->description}');";
         $result = $this->conn->query($sql);
         if($result){
             Message::message("You are Successful to Insert your Data");
@@ -90,7 +97,7 @@ class Hobby
     }
 
     public function update(){
-         $sql = "UPDATE `atomicprojectb20`.`hobby` SET `name` = '{$this->name}', `hobby` = '{$this->hobby}' WHERE `hobby`.`id` = {$this->id}";
+        $sql = "UPDATE `atomicprojectb20`.`hobby` SET `name` = '{$this->name}', `hobby` = '{$this->hobby}', `email` = '{$this->email}',`description`='{$this->description}' WHERE `hobby`.`id` = {$this->id}";
         $result = $this->conn->query($sql);
         if($result){
             Message::message("You are Successful to Update your Data");

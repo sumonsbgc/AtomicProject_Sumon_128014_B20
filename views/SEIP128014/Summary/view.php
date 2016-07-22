@@ -41,6 +41,7 @@ $summarySingleItem = $summary->prepare($_GET)->selectById();
 								<th>#SL</th>
 								<th>ID</th>
 								<th>Name</th>
+								<th>Email</th>
 								<th>Summary</th>
 								<th>Action</th>
 							</tr>
@@ -50,6 +51,7 @@ $summarySingleItem = $summary->prepare($_GET)->selectById();
 								<td><?php $sl = 1; echo $sl; ?></td>
 								<td><?php echo $summarySingleItem->id; ?></td>
 								<td><?php echo $summarySingleItem->name ?></td>
+								<td><?php echo $summarySingleItem->email ?></td>
 								<td width="50%"><?php echo $summarySingleItem->summary; ?></td>
 								<td>
 									<a href="edit.php?id=<?php echo $summarySingleItem->id; ?>" class="btn btn-info">Update</a>

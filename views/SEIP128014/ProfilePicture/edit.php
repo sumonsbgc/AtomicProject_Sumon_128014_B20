@@ -38,11 +38,18 @@ $editImage = $profile->prepare($_GET)->selectById();
         <div class="col-lg-12">
             <div class="formArea">
                 <form method="post" action="update.php" enctype="multipart/form-data">
-
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Your Name</label>
-                        <input type="text" name="name" value="<?php echo $editImage->name;  ?>" class="form-control" id="exampleInputEmail1">
+                        <label for="name">Your Name</label>
+                        <input type="text" name="name" value="<?php echo $editImage->name;  ?>" class="form-control" id="name">
                         <input type="hidden" name="id" value="<?php echo $editImage->id;  ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="text" name="email" class="form-control" id="email" value="<?php echo $editImage->email; ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="description"> Description</label>
+                        <textarea name="description" id="description" rows="10"><?php echo $editImage->description; ?></textarea>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputFile">File input</label>
@@ -57,8 +64,14 @@ $editImage = $profile->prepare($_GET)->selectById();
 </div>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="../../../resource/assets/js/jquery-3.1.0.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="../../../resource/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../../resource/tinymce_4.4.0/tinymce/js/tinymce/tinymce.min.js"></script>
+<script>
+    tinymce.init({
+        selector: 'textarea#description'
+    });
+</script>
 </body>
 </html>

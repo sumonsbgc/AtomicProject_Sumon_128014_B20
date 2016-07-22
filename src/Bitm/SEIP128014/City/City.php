@@ -8,6 +8,8 @@ class City{
 	public $id;
 	public $trashAt;
 	public $conn;
+	public $email;
+	public $description;
 
 	public function __construct()
 	{
@@ -27,18 +29,24 @@ class City{
 		if (array_key_exists("city", $data)) {
 			$this->city = $data["city"];
 		}
+		if(array_key_exists('email',$data)){
+			$this->email = $data['email'];
+		}
+		if(array_key_exists('description',$data)){
+			$this->description = $data['description'];
+		}
 		return $this;
 	}
 
 	public function count(){
-		$sql = "SELECT COUNT(*) AS totalItem FROM `atomicprojectb20`.`city`";
+		$sql = "SELECT COUNT(*) AS totalItem FROM `atomicprojectb20`.`city` WHERE `trash_at` IS NULL";
 		$result = $this->conn->query($sql);
 		$row = $result->fetch_object();
 		return $row->totalItem;
 	}
 
 	public function paginator($pageStartFrom=0,$limit=5){
-		$sql = "SELECT * FROM `city` LIMIT {$pageStartFrom}, {$limit}";
+		$sql = "SELECT * FROM `city` WHERE `trash_at` IS NULL LIMIT {$pageStartFrom}, {$limit}";
 		$result = $this->conn->query($sql);
 		$allCity = array();
 		if($result){
@@ -50,7 +58,7 @@ class City{
 	}
 
 	public function store(){
-		$sql = "INSERT INTO `city` (`name`,`city`) VALUES ('{$this->name}', '{$this->city}')";
+		$sql = "INSERT INTO `city` (`name`,`city`,`email`,`description`) VALUES ('{$this->name}', '{$this->city}', '{$this->email}','{$this->description}')";
 		$result = $this->conn->query($sql);
 		if ($result) {
 			Message::message("<div class=\"alert alert-succes\">You are <strong>Success</strong></div>");
@@ -96,7 +104,7 @@ class City{
 
 
 	public function update(){
-		$sql = "UPDATE `city` SET `name` = '{$this->name}',`city` = '{$this->city}' WHERE `id` = {$this->id}";
+		$sql = "UPDATE `city` SET `name` = '{$this->name}',`city` = '{$this->city}', `email` = '{$this->email}',`description`='{$this->description}' WHERE `id` = {$this->id}";
 		$result = $this->conn->query($sql);
 		if ($result) {
 			Message::message("<div class=\"alert alert-succes\">You are <strong>Success</strong></div>");

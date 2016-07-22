@@ -39,9 +39,17 @@ $singleItem = $gender->prepare($_GET)->selectById();
         <div class="col-lg-12">
             <form method="post" action="update.php">
                 <div class="form-group">
-                    <label>Name</label>
+                    <label>Name :</label>
                     <input type="text" name="name" class="form-control" value="<?php echo $singleItem->name ?>">
                     <input type="hidden" name="id" value="<?php echo $singleItem->id; ?>">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="text" name="email" class="form-control" id="email" value="<?php echo $singleItem->email; ?>">
+                </div>
+                <div class="form-group">
+                    <label for="description"> Description</label>
+                    <textarea name="description" id="description" rows="10"><?php echo $singleItem->description; ?></textarea>
                 </div>
                 <div class="radio">
                     <label><input type="radio" value="Male" name="gender" <?php if ( $singleItem->gender == "Male"){ echo "checked"; } ?>>Male</label>
@@ -55,8 +63,14 @@ $singleItem = $gender->prepare($_GET)->selectById();
     </div>
 </div>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="../../../resource/assets/js/jquery-3.1.0.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="../../../resource/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../../resource/tinymce_4.4.0/tinymce/js/tinymce/tinymce.min.js"></script>
+<script>
+    tinymce.init({
+        selector: 'textarea#description'
+    });
+</script>
 </body>
 </html>

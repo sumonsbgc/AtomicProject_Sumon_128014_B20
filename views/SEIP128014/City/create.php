@@ -24,8 +24,16 @@
 				</div>
 				<form method="post" role="form" action="store.php" >
 					<div class="form-group">
-					    <label for="exampleInputEmail1">Email address</label>
+					    <label for="exampleInputEmail1">Name :</label>
 					    <input type="text" name="name" class="form-control" id="exampleInputEmail1" placeholder="Name">
+					</div>
+					<div class="form-group">
+						<label for="email">Email :</label>
+						<input type="text" name="email" class="form-control" id="email" placeholder="Email">
+					</div>
+					<div class="form-group">
+						<label for="description"> Description</label>
+						<textarea name="description" id="description" rows="10"></textarea>
 					</div>
 					<div class="form-group">
 					    <label for="exampleInputEmail1">Your City</label>
@@ -44,11 +52,17 @@
 				</form>
 			</div>
 		</div>
-	</div>    
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="../../../resource/bootstrap/js/bootstrap.min.js"></script>
+	</div>
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="../../../resource/assets/js/jquery-3.1.0.min.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="../../../resource/bootstrap/js/bootstrap.min.js"></script>
+	<script src="../../../resource/tinymce_4.4.0/tinymce/js/tinymce/tinymce.min.js"></script>
+	<script>
+		tinymce.init({
+			selector: 'textarea#description'
+		});
+	</script>
   </body>
 </html>
 

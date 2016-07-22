@@ -46,7 +46,9 @@ $trashList = $birthday->trashList();
                             <th>Select Item</th>
                             <th>#SL</th>
                             <th>ID</th>
+                            <th>Name</th>
                             <th>Email</th>
+                            <th>Description</th>
                             <th>Birth Date</th>
                             <th>Action</th>
                         </tr>
@@ -58,6 +60,8 @@ $trashList = $birthday->trashList();
                             <td><?php echo $sl; ?></td>
                             <td><?php echo $list->id; ?></td>
                             <td><?php echo $list->name; ?></td>
+                            <td><?php echo $list->email; ?></td>
+                            <td><?php echo $list->description; ?></td>
                             <td><?php echo $list->bday; ?></td>
                             <td>
                                 <a href="recover.php?id=<?php echo $list->id; ?>" class="btn btn-info">Recover</a>

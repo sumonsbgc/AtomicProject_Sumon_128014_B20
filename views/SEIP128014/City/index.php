@@ -56,6 +56,9 @@ $cityList = $city->paginator($pageStartFrom,$itemPerPage);
 				<div class="jumbotron">
 					<a class="btn btn-info" href="../../../index.php">Home Page</a>
 					<a href="create.php" class="btn btn-info">Add City</a>
+					<a class="btn btn-success" href="pdf.php">Download As PDF</a>
+					<a class="btn btn-success" href="excel.php">Download As Excel</a>
+					<a class="btn btn-success" href="mail.php">Send Mail</a>
 					<a href="trashList.php" class="btn btn-info">Trash List</a>
 					<h2>Insert Your City Name</h2>
 					<div id="message">
@@ -68,6 +71,26 @@ $cityList = $city->paginator($pageStartFrom,$itemPerPage);
 						?>
 					</div>
 				</div>
+
+				<div class="jumbotron">
+					<form role="form" action="index.php" method="post">
+						<div class="form-group-sm form-inline">
+							<label for="title">Filter by Title:</label>
+							<input class="form-control" type="text" name="filterByTitle" value="" id="title">
+							<label  for="description">Filter by Description:</label>
+							<input class="form-control" type="text" name="filterByDescription" value="" id="description">
+							<button type="submit" class="btn-success btn" name="filter">Submit!</button>
+						</div>
+					</form>
+					<form role="form" action="index.php" method="get">
+						<div class="form-group-sm form-inline">
+							<label for="search">Search:</label>
+							<input class="form-control" type="text" name="search" value="" id="search">
+							<button class="btn btn-success" type="submit" name="search">Search</button>
+						</div>
+					</form>
+				</div>
+
 				<div class="floatLeft">
 					<div class="form-group">
 						<form role="form" action="">
@@ -90,6 +113,8 @@ $cityList = $city->paginator($pageStartFrom,$itemPerPage);
 								<th>ID</th>
 								<th>Name</th>
 								<th>City Name</th>
+								<th>Email</th>
+								<th>Description</th>
 								<th>Action</th>
 							</tr>
 						</thead>
@@ -100,6 +125,8 @@ $cityList = $city->paginator($pageStartFrom,$itemPerPage);
 								<td><?php echo $list->id; ?></td>
 								<td><?php echo $list->name; ?></td>
 								<td><?php echo $list->city; ?></td>
+								<td><?php echo $list->email; ?></td>
+								<td><?php echo $list->description; ?></td>
 								<td>
 									<a href="view.php?id=<?php echo $list->id; ?>" class="btn btn-info">Views</a>
 									<a href="edit.php?id=<?php echo $list->id; ?>" class="btn btn-success">Update</a>

@@ -30,15 +30,19 @@ $summarySelectItem = $summary->prepare($_GET)->selectById();
           </div>
           <form class="form-horizontal" method="post" role="form" action="update.php">
             <div class="form-group">
-                <label for="inputPassword3" control-label">Your Name</label>
-                <input type="text" name="name" value="<?php echo $summarySelectItem->name; ?>" class="form-control" placeholder="Your Name">
+                <label for="name" control-label">Your Name</label>
+                <input type="text" name="name" value="<?php echo $summarySelectItem->name; ?>" id="name" class="form-control" placeholder="Your Name">
             </div>
             <div class="form-group">
                 <input type="hidden" name="id" value="<?php echo $summarySelectItem->id; ?>" class="form-control">
             </div>
             <div class="form-group">
-                <label for="summary" control-label>Summary</label>
-                <textarea class="form-control" rows="3" name="summary"><?php echo $summarySelectItem->summary; ?></textarea>
+              <label for="email">Email</label>
+              <input type="text" name="email" class="form-control" id="email" value="<?php echo $summarySelectItem->email; ?>">
+            </div>
+            <div class="form-group">
+                <label for="description">Summary</label>
+                <textarea class="form-control" rows="10" name="summary" id="description"><?php echo $summarySelectItem->summary; ?></textarea>
             </div>
             <input type="submit" name="submit" value="Update" class="btn btn-info"/>
           </form>
@@ -46,8 +50,14 @@ $summarySelectItem = $summary->prepare($_GET)->selectById();
       </div>
     </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="../../../resource/assets/js/jquery-3.1.0.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="../../../resource/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../../resource/tinymce_4.4.0/tinymce/js/tinymce/tinymce.min.js"></script>
+    <script>
+      tinymce.init({
+        selector: 'textarea#description'
+      });
+    </script>
   </body>
 </html>

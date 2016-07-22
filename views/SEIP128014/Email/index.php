@@ -92,6 +92,8 @@ $emailList = $email->paginator($pageStartFrom,$itemPerPage);
                   <th>#Sl</th>
                   <th>ID</th>
                   <th>Email</th>
+                  <th>Name</th>
+                  <th>Description</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -104,7 +106,9 @@ $emailList = $email->paginator($pageStartFrom,$itemPerPage);
                 <tr>
                   <td><?php echo $sl+$pageStartFrom; ?></td>
                   <td><?php echo $email->id; ?></td>
+                  <td><?php echo $email->name; ?></td>
                   <td><?php echo $email->email; ?></td>
+                  <td><?php echo $email->description; ?></td>
                   <td>
                     <a href="view.php?id=<?php echo $email->id; ?>" class="btn btn-info">View</a>
                     <a href="update.php?id=<?php echo $email->id; ?>" class="btn btn-danger">Update</a>

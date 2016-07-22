@@ -40,6 +40,7 @@ $summaryTrashItem = $summary->trashList();
 								<th>#SL</th>
 								<th>ID</th>
 								<th>Name</th>
+								<th>Email</th>
 								<th>Summary</th>
 								<th>Action</th>
 							</tr>
@@ -51,6 +52,7 @@ $summaryTrashItem = $summary->trashList();
 								<td><?php echo $sl; ?></td>
 								<td><?php echo $trash->id; ?></td>
 								<td><?php echo $trash->name ?></td>
+								<td><?php echo $trash->email ?></td>
 								<td width="50%"><?php echo $trash->summary; ?></td>
 								<td>
 									<a href="delete.php?id=<?php echo $trash->id; ?>" class="btn btn-info">Delete</a>

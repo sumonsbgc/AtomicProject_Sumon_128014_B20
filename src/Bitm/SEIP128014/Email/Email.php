@@ -13,7 +13,8 @@ class Email
     public $modified_at;
     public $deleted_at;
     public $trashAt;
-
+    public $name;
+    public $description;
 
     
     public function prepare($data){
@@ -23,18 +24,24 @@ class Email
         if (array_key_exists("id",$data)){
             $this->id = $data["id"];
         }
+        if (array_key_exists('name',$data)){
+            $this->name = $data['name'];
+        }
+        if(array_key_exists('description',$data)){
+            $this->description = $data['description'];
+        }
         return $this;
     }
 
     public function count(){
-        $sql = "SELECT COUNT(*) AS totalItem FROM `atomicprojectb20`.`email`";
+        $sql = "SELECT COUNT(*) AS totalItem FROM `atomicprojectb20`.`email` WHERE `trash_at` IS NULL";
         $result = $this->conn->query($sql);
         $row = $result->fetch_object();
         return $row->totalItem;
     }
 
     public function paginator($pageStartFrom=0,$limit=5){
-        $sql = "SELECT * FROM `email` LIMIT {$pageStartFrom},{$limit}";
+        $sql = "SELECT * FROM `email` WHERE `trash_at` IS NULL LIMIT {$pageStartFrom},{$limit}";
         $result = $this->conn->query($sql);
         $allEmail = array();
         if($result){
@@ -49,7 +56,7 @@ class Email
 
 
     public function storeData(){
-        $query = "INSERT INTO `atomicprojectb20`.`email` (`email`) VALUES ('".$this->email."')";
+        $query = "INSERT INTO `atomicprojectb20`.`email` (`email`,`name`,`description`) VALUES ('".$this->email."','{$this->name}','{$this->description}')";
         $result = $this->conn->query($query);
         if ($result){
             Message::message("<div class=\"alert alert-success\"><strong>Success!</strong>Insert Successfully</div>");
@@ -85,7 +92,7 @@ class Email
     }
 
     public function edit(){
-        $sql = "UPDATE `email` SET `email`= '{$this->email}' WHERE `id`={$this->id}";
+        $sql = "UPDATE `email` SET `email`= '{$this->email}', `name`='{$this->name}', `description`='{$this->description}' WHERE `id`={$this->id}";
         $result = $this->conn->query($sql);
         if ($result){
             Message::message("<div class=\"alert alert-success\"><strong>Success!</strong>Update Successfully</div>");

@@ -6,9 +6,13 @@ class Summary
     public $conn;
     public $id;
     public $name;
+    public $email;
     public $summary;
     public $trashAt;
-
+    public $description;
+    public $filterByTitle;
+    public $filterByDescription;
+    public $search;
     public function __construct()
     {
         $this->conn = new \mysqli("localhost","root","","atomicprojectb20") or die("Sorry Connection Fail");
@@ -21,21 +25,37 @@ class Summary
         if (array_key_exists("name",$data)){
             $this->name = $data["name"];
         }
+        if (array_key_exists("email",$data)){
+            $this->email = $data["email"];
+        }
         if (array_key_exists("summary",$data)){
             $this->summary = $data["summary"];
         }
+        if (array_key_exists("description", $data)) {
+            $this->description = $data['description'];
+        }
+        if (array_key_exists("filterByTitle", $data)) {
+            $this->filterByTitle = $data['filterByTitle'];
+        }
+        if (array_key_exists("filterByDescription", $data)) {
+            $this->filterByDescription = $data['filterByDescription'];
+        }
+        if (array_key_exists("search", $data)) {
+            $this->search = $data['search'];
+        }
+
         return $this;
     }
 
     public function count(){
-        $sql = "SELECT COUNT(*) AS totalItem FROM `atomicprojectb20`.`summary`";
+        $sql = "SELECT COUNT(*) AS totalItem FROM `atomicprojectb20`.`summary` WHERE `trash_at` IS NULL";
         $result = $this->conn->query($sql);
         $row = $result->fetch_object();
         return $row->totalItem;
     }
 
     public function paginator($pageStartFrom=0,$limit=5){
-        $sql = "SELECT * FROM `summary` LIMIT {$pageStartFrom}, {$limit}";
+        $sql = "SELECT * FROM `summary` WHERE `trash_at` IS NULL LIMIT {$pageStartFrom}, {$limit}";
         $result = $this->conn->query($sql);
         $allSummary = array();
         if($result){
@@ -48,7 +68,7 @@ class Summary
 
 
     public function store(){
-        $sql = "INSERT INTO `summary` (`name`,`summary`) VALUES ('{$this->name}','{$this->summary}')";
+        $sql = "INSERT INTO `summary` (`name`,`summary`,`email`) VALUES ('{$this->name}','{$this->summary}','{$this->email}')";
         $result = $this->conn->query($sql);
         if ($result){
             Message::message("<div class=\"alert alert-success\">You are <strong>Success!</strong></div>");
@@ -60,15 +80,50 @@ class Summary
     }
 
     public function selectAll(){
-        $sql = "SELECT * FROM `summary` WHERE `trash_at` IS NULL ";
-        $result = $this->conn->query($sql);
         $singleItem = array();
+        $whereClause= " 1=1 ";
+        if(!empty($this->filterByTitle)) {
+            $whereClause .= " AND name LIKE '%".$this->filterByTitle."%'";
+        }
+
+        if(!empty($this->filterByDescription)){
+            $whereClause .= " AND summary LIKE '%".$this->filterByDescription."%'";
+        }
+
+        if(!empty($this->search)){
+            $whereClause .= " AND summary LIKE '%".$this->search."%' OR  name LIKE '%".$this->search."%'";
+        }
+
+        $sql = "SELECT * FROM `summary` WHERE `trash_at` IS NULL AND ".$whereClause;
+
+        $result = $this->conn->query($sql);
         if ($result){
             while($row = $result->fetch_object()){
                 $singleItem[] = $row;
             }
         }
         return $singleItem;
+    }
+
+    public function allName(){
+        $_allName= array();
+        $query="SELECT name FROM `summary`";
+        $result= $this->conn->query($query);
+
+        while($row = $result->fetch_object()){
+            $_allName[]=$row->name;
+        }
+        return $_allName;
+    }
+    public function allSummary(){
+        $_allName= array();
+        $query="SELECT summary FROM `summary`";
+        $result= $this->conn->query($query);
+
+        while($row = $result->fetch_object()){
+            $_allName[]=$row->summary;
+        }
+        return $_allName;
     }
 
     public function selectById(){
@@ -92,7 +147,7 @@ class Summary
     }
 
     public function update(){
-        $sql = "UPDATE `summary` SET `name`='{$this->name}',`summary` = '{$this->summary}' WHERE `id`={$this->id}";
+        $sql = "UPDATE `summary` SET `name`='{$this->name}',`summary` = '{$this->summary}',`email` = '{$this->email}' WHERE `id`={$this->id}";
         $result = $this->conn->query($sql);
         if ($result){
             Message::message("<div class=\"alert alert-success\">You are <strong>Success!</strong></div>");

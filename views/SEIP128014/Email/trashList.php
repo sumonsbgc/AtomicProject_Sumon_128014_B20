@@ -46,7 +46,9 @@ $trashItem = $email->trashList();
                                <th>Item Check</th>
                                <th>#SL</th>
                                <th>ID</th>
+                               <th>Name</th>
                                <th>Email</th>
+                               <th>Description</th>
                                <th>Action</th>
                            </tr>
                         </thead>
@@ -56,7 +58,9 @@ $trashItem = $email->trashList();
                                <td><input type="checkbox" name="mark[]" value="<?php echo $item->id;?>"></td>
                                <td><?php echo $sl; ?></td>
                                <td><?php echo $item->id; ?></td>
+                               <td><?php echo $item->name; ?></td>
                                <td><?php echo $item->email; ?></td>
+                               <td><?php echo $item->description; ?></td>
                                <td>
                                    <a class="btn btn-warning" href="delete.php?id=<?php echo $item->id; ?>">Delete</a>
                                    <a class="btn btn-info" href="recover.php?id=<?php echo $item->id; ?>">Recover</a>

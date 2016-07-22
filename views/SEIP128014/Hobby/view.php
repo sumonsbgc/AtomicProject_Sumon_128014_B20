@@ -43,6 +43,8 @@ $singleView = $hobby->prepare($_GET)->singleView()
                             <th>ID</th>
                             <th>Name</th>
                             <th>Hobby</th>
+                            <th>Email</th>
+                            <th>Description</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -53,6 +55,8 @@ $singleView = $hobby->prepare($_GET)->singleView()
                         <td><?php echo $singleView->id; ?></td>
                         <td><?php echo $singleView->name; ?></td>
                         <td><?php echo $singleView->hobby; ?></td>
+                        <td><?php echo $singleView->email; ?></td>
+                        <td><?php echo $singleView->description; ?></td>
                         <td>
                             <a class="btn btn-danger" href="delete.php?id=<?php echo $singleView->id; ?>">DELETE</a>
                             <a class="btn btn-info" href="edit.php?id=<?php echo $singleView->id; ?>">UPDATE</a>

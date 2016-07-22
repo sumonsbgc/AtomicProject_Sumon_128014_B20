@@ -33,8 +33,16 @@ $list = $city->prepare($_GET)->selectById();
 					    <input value="<?php echo $list->id; ?>" type="hidden" name="id">
 					</div>
 					<div class="form-group">
-					    <label for="exampleInputEmail1">Email address</label>
-					    <input value="<?php echo $list->name; ?>" type="name" name="name" class="form-control" id="exampleInputEmail1" placeholder="Name">
+					    <label for="name">Email address</label>
+					    <input value="<?php echo $list->name; ?>" type="text" name="name" class="form-control" id="name" placeholder="Name">
+					</div>
+					<div class="form-group">
+						<label for="email">Email</label>
+						<input type="text" name="email" class="form-control" id="email" value="<?php echo $list->email; ?>">
+					</div>
+					<div class="form-group">
+						<label for="description"> Description</label>
+						<textarea name="description" id="description" rows="10"><?php echo $list->description; ?></textarea>
 					</div>
 					<div class="form-group">
 					    <label for="exampleInputEmail1">Your City</label>
@@ -53,10 +61,16 @@ $list = $city->prepare($_GET)->selectById();
 				</form>
 			</div>
 		</div>
-	</div>    
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="../../../resource/bootstrap/js/bootstrap.min.js"></script>
+	</div>
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="../../../resource/assets/js/jquery-3.1.0.min.js"></script>
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<script src="../../../resource/bootstrap/js/bootstrap.min.js"></script>
+	<script src="../../../resource/tinymce_4.4.0/tinymce/js/tinymce/tinymce.min.js"></script>
+	<script>
+		tinymce.init({
+			selector: 'textarea#description'
+		});
+	</script>
   </body>
 </html>

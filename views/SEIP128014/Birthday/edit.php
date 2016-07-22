@@ -47,6 +47,14 @@ $singleUpdate = $birthday->prepare($_GET)->selectById();
                     <input type="text" name="name" class="form-control"  value="<?php echo $singleUpdate->name ?>"/>
                 </div>
                 <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="text" name="email" class="form-control" id="email" value="<?php echo $singleUpdate->email; ?>">
+                </div>
+                <div class="form-group">
+                    <label for="description"> Description</label>
+                    <textarea name="description" id="description" rows="10"><?php echo $singleUpdate->description; ?></textarea>
+                </div>
+                <div class="form-group">
                     <?php $newDate = date("d-m-Y", strtotime($singleUpdate->bday)); ?>
                     <label>Birth Date :</label> <?php echo $newDate; ?>
                     <input type="date" name="bday" class="form-control" value="<?php echo $singleUpdate->bday; ?>" >
@@ -57,8 +65,15 @@ $singleUpdate = $birthday->prepare($_GET)->selectById();
     </div>
 </div>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="../../../resource/assets/js/jquery-3.1.0.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="../../../resource/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../../resource/tinymce_4.4.0/tinymce/js/tinymce/tinymce.min.js"></script>
+<script>
+    tinymce.init({
+        selector: 'textarea#description'
+    });
+</script>
+</body>
 </body>
 </html>

@@ -13,17 +13,38 @@ class Book
     public $modified_at;
     public $deleted_at;
     public $trash_at;
+    public $email;
+    public $description;
+
+    public function prepare($data){
+        if(array_key_exists("title",$data)){
+            $this->title = $data["title"];
+        }
+
+        if(array_key_exists("id",$data)){
+            $this->id = $data["id"];
+        }
+
+        if(array_key_exists('email',$data)){
+            $this->email = $data['email'];
+        }
+
+        if(array_key_exists('description',$data)){
+            $this->description = $data['description'];
+        }
+        return $this;
+    }
 
 
     public function count(){
-        $sql = "SELECT COUNT(*) AS totalItem FROM `atomicprojectb20`.`book`";
+        $sql = "SELECT COUNT(*) AS totalItem FROM `atomicprojectb20`.`book` WHERE `trash_at` IS NULL";
         $result = $this->conn->query($sql);
         $row = $result->fetch_object();
         return $row->totalItem;
     }
 
     public function paginator($pageStartFrom=0,$limit=5){
-        $sql = "SELECT * FROM `book` LIMIT {$pageStartFrom},{$limit}";
+        $sql = "SELECT * FROM `book` WHERE `trash_at` IS NULL LIMIT {$pageStartFrom},{$limit}";
         $result = $this->conn->query($sql);
         $allBook = array();
         if($result){
@@ -45,16 +66,6 @@ class Book
         }
         return $return;
     }
-    public function prepare($data){
-        if(array_key_exists("title",$data)){
-            $this->title = $data["title"];
-        }
-
-        if(array_key_exists("id",$data)){
-            $this->id = $data["id"];
-        }
-        return $this;
-    }
 
     public function create(){
         return "I am creating";
@@ -62,7 +73,6 @@ class Book
 
     public function views(){
         $sql = "SELECT * FROM `book` WHERE `id`={$this->id}";
-        /*$sql = "SELECT * FROM `book` WHERE `id`=".$this->id;*/
         $result = $this->conn->query($sql);
         $row = $result->fetch_object();
         return $row;
@@ -94,10 +104,10 @@ class Book
     }
 
     public function update(){
-        
-        $sql = "UPDATE `atomicprojectb20`.`book` SET `title` = '{$this->title}' WHERE `book`.`id` = {$this->id}";
-        $result = $this->conn->query($sql);
 
+        $sql = "UPDATE `atomicprojectb20`.`book` SET `title` = '{$this->title}',`email` = '{$this->email}',`description`='{$this->description}' WHERE `book`.`id` = {$this->id}";
+        $result = $this->conn->query($sql);
+        
         if ($result){
             Message::message("<div class=\"alert alert-success\">
                                 <strong>Success</strong>
@@ -114,7 +124,7 @@ class Book
     }
 
     public function storeData(){
-        $query = "INSERT INTO `atomicprojectb20`.`book` (`title`) VALUES ('".$this->title."')";
+        $query = "INSERT INTO `atomicprojectb20`.`book` (`title`,`email`,`description`) VALUES ('".$this->title."','{$this->email}','{$this->description}')";
         $result = $this->conn->query($query);
         if($result){
             Message::message("<div class=\"alert alert-success\">

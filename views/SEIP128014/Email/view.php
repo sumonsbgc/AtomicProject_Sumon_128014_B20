@@ -37,14 +37,18 @@ var_dump($singleView);
                         <tr>
                             <th>#Sl.</th>
                             <th>ID.</th>
+                            <th>Name</th>
                             <th>Email</th>
+                            <th>Description</th>
                         </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td><?php $sl=1; echo $sl; ?></td>
                                 <td><?php echo $singleView->id; ?></td>
+                                <td><?php echo $singleView->name; ?></td>
                                 <td><?php echo $singleView->email; ?></td>
+                                <td><?php echo $singleView->description; ?></td>
                             </tr>
                         </tbody>
                     </table>

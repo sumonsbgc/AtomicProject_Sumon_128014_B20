@@ -8,6 +8,8 @@ class ProfilePicture
     public $image;
     public $name;
     public $trashAt;
+    public $email;
+    public $description;
 
     public function __construct()
     {
@@ -15,7 +17,7 @@ class ProfilePicture
     }
 
     public function count(){
-        $sql = "SELECT COUNT(*) AS totalItem FROM `atomicprojectb20`.`profile`";
+        $sql = "SELECT COUNT(*) AS totalItem FROM `atomicprojectb20`.`profile` WHERE `trash_at` IS NULL";
         $result = $this->conn->query($sql);
         $row = $result->fetch_object();
         return $row->totalItem;
@@ -43,11 +45,18 @@ class ProfilePicture
         if(array_key_exists("name",$data)){
             $this->name = $data['name'];
         }
+        if(array_key_exists('email',$data)){
+            $this->email = $data['email'];
+        }
+        if(array_key_exists('description',$data)){
+            $this->description = $data['description'];
+        }
+
         return $this;
     }
 
     public function insertData(){
-        $sql = "INSERT INTO `profile`(`name`, `image`) VALUES ('{$this->name}','{$this->image}')";
+        $sql = "INSERT INTO `profile`(`name`, `image`, `email`, `description`) VALUES ('{$this->name}','{$this->image}','{$this->email}','{$this->description}')";
         $result = $this->conn->query($sql);
         if ($result){
             Message::message("<div class=\"alert alert-success\">Success! to Insert</div>");
@@ -94,10 +103,10 @@ class ProfilePicture
 
     public function updateData(){
         if(!empty($this->image)) {
-            $sql = "UPDATE `profile` SET `name` = '{$this->name}', `image` = '{$this->image}' WHERE `id`={$this->id}";
+            $sql = "UPDATE `profile` SET `name` = '{$this->name}', `image` = '{$this->image}',`email`='{$this->email}',`description`='{$this->description}' WHERE `id`={$this->id}";
         }
         else {
-            $sql = "UPDATE `profile` SET `name` = '{$this->name}' WHERE `id`={$this->id}";
+            $sql = "UPDATE `profile` SET `name` = '{$this->name}',`email` = '{$this->email}',`description` = '{$this->description}' WHERE `id`={$this->id}";
         }
         $result = $this->conn->query($sql);
         if ($result){

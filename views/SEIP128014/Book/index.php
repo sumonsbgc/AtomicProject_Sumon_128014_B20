@@ -58,6 +58,9 @@ $allBook = $book->paginator($pageStartFrom,$itemPerPage);
               <div class="heading">
                  <h1>Book List</h1>
                   <a class="btn btn-info" href="../../../index.php">Home Page</a>
+                  <a class="btn btn-success" href="pdf.php">Download As PDF</a>
+                  <a class="btn btn-success" href="excel.php">Download As Excel</a>
+                  <a class="btn btn-success" href="mail.php">Send Mail</a>
                   <span><a href="create.php" class="btn btn-info">Add To Book Title</a></span>
                   <span><a href="trashed.php" class="btn btn-info">Trahsed Item</a></span>
               </div>
@@ -66,6 +69,30 @@ $allBook = $book->paginator($pageStartFrom,$itemPerPage);
                   if( (array_key_exists('message',$_SESSION)) && ( !empty($_SESSION['message']) ) ) {
                       echo Message::message();
                   } ?>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="container">
+      <div class="row">
+          <div class="col-lg-12">
+              <div class="jumbotron">
+                  <form role="form" action="index.php" method="post">
+                      <div class="form-group-sm form-inline">
+                          <label for="title">Filter by Title:</label>
+                          <input class="form-control" type="text" name="filterByTitle" value="" id="title">
+                          <label  for="description">Filter by Description:</label>
+                          <input class="form-control" type="text" name="filterByDescription" value="" id="description">
+                          <button type="submit" class="btn-success btn" name="filter">Submit!</button>
+                      </div>
+                  </form>
+                  <form role="form" action="index.php" method="get">
+                      <div class="form-group-sm form-inline">
+                          <label for="search">Search:</label>
+                          <input class="form-control" type="text" name="search" value="" id="search">
+                          <button class="btn btn-success" type="submit" name="search">Search</button>
+                      </div>
+                  </form>
               </div>
           </div>
       </div>
@@ -94,6 +121,8 @@ $allBook = $book->paginator($pageStartFrom,$itemPerPage);
                                 <th>Serial</th>
                                 <th>ID</th>
                                 <th>Book Title</th>
+                                <th>Email</th>
+                                <th>Description</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -107,6 +136,8 @@ $allBook = $book->paginator($pageStartFrom,$itemPerPage);
                                 <th scope="2"><?php echo $sl+$pageStartFrom; ?></th>
                                 <td><?php echo $book->id; ?></td>
                                 <td><?php echo $book->title; ?></td>
+                                <td><?php echo $book->email; ?></td>
+                                <td><?php echo $book->description; ?></td>
                                 <td>
                                     <a class="btn btn-primary" href="view.php?id=<?php echo $book->id; ?>">View</a>
                                     <a class="btn btn-success" href="edit.php?id=<?php echo $book->id; ?>">Update</a>

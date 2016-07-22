@@ -49,16 +49,29 @@ use App\Bitm\SEIP128014\Book\Message;
                         <label for="pwd">Book Title:</label>
                         <input type="text" name="title" class="form-control" id="pwd">
                     </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="text" name="email" class="form-control" id="email" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description :</label>
+                        <textarea name="description" id="description" rows="10"></textarea>
+                    </div>
                     <button type="submit" name="submit" class="btn btn-default">Submit</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="../../../resource/assets/js/jquery-3.1.0.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="js/bootstrap.min.js"></script>
+<script src="../../../resource/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../../resource/tinymce_4.4.0/tinymce/js/tinymce/tinymce.min.js"></script>
+<script>
+    tinymce.init({
+        selector: 'textarea#description'
+    });
+</script>
 </body>
 </html>

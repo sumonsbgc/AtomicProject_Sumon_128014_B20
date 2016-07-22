@@ -7,21 +7,22 @@ class Gender{
 	public $name;
 	public $gender;
 	public $trashAt;
-
+	public $email;
+	public $description;
 	public function __construct(){
 		$this->conn = new \mysqli("localhost","root","","atomicprojectb20") or die("Your are fail to connection!");
 	}
 
 
 	public function count(){
-		$sql = "SELECT COUNT(*) AS totalItem FROM `atomicprojectb20`.`gender`";
+		$sql = "SELECT COUNT(*) AS totalItem FROM `atomicprojectb20`.`gender` WHERE `trash_at` IS NULL";
 		$result = $this->conn->query($sql);
 		$row = $result->fetch_object();
 		return $row->totalItem;
 	}
 
 	public function paginator($pageStartFrom=0,$limit=5){
-		$sql = "SELECT * FROM `gender` LIMIT {$pageStartFrom}, {$limit}";
+		$sql = "SELECT * FROM `gender` WHERE `trash_at` IS NULL LIMIT {$pageStartFrom}, {$limit}";
 		$result = $this->conn->query($sql);
 		$allGender = array();
 		if($result){
@@ -42,11 +43,17 @@ class Gender{
 		if (array_key_exists("gender", $input)) {
 			$this->gender = $input["gender"];
 		}
+		if(array_key_exists('email',$input)){
+			$this->email = $input['email'];
+		}
+		if(array_key_exists('description',$input)){
+			$this->description = $input['description'];
+		}
 		return $this;
 	}
 
 	public function insertData(){
-		$sql = "INSERT INTO `gender` (`name`,`gender`) VALUES ('{$this->name}','{$this->gender}')";
+		$sql = "INSERT INTO `gender` (`name`,`gender`,`email`,`description`) VALUES ('{$this->name}','{$this->gender}','{$this->email}','{$this->description}')";
 		$result = $this->conn->query($sql);
 		if($result){
 			Message::message("<div class=\"alert alert-success\">You are <strong>Success!</strong> </div>");
@@ -77,7 +84,7 @@ class Gender{
 	}
 
 	public function update(){
-		$sql = "UPDATE `gender` SET `name`='{$this->name}',`gender`='{$this->gender}' WHERE `id`={$this->id}";
+		$sql = "UPDATE `gender` SET `name`='{$this->name}',`gender`='{$this->gender}',`email`='{$this->email}',`description` = '{$this->description}' WHERE `id`={$this->id}";
 		$result = $this->conn->query($sql);
 		if($result){
 			Message::message("<div class=\"alert alert-success\">You are <strong>Success!</strong> </div>");

@@ -50,6 +50,8 @@ $trashList = $profile->trashList();
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Profile Image</th>
+                                <th>Email</th>
+                                <th>Description</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -65,6 +67,8 @@ $trashList = $profile->trashList();
                                     <td><?php echo $trash->id; ?></td>
                                     <td><?php echo $trash->name; ?></td>
                                     <td><img src="../../../resource/img/<?php echo $trash->image; ?>" alt="" width="200px" height="200px"></td>
+                                    <td><?php echo $trash->email; ?></td>
+                                    <td><?php echo $trash->description; ?></td>
                                     <td>
                                         <a href="view.php?id=<?php echo $trash->id; ?>" class="btn btn-info">View</a>
                                         <a href="delete.php?id=<?php echo $trash->id; ?>" class="btn btn-info">Delete</a>

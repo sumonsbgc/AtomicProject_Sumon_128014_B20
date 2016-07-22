@@ -8,28 +8,32 @@ class Birthday
     public $trashAt;
     public $name;
     public $conn;
-
+    public $email;
+    public $description;
 
     public function prepare(array $data){
         if (array_key_exists('name',$data)){
             $this->name = $data['name'];
         }
-
         if (array_key_exists('id',$data)){
             $this->id = $data['id'];
         }
-
         if (array_key_exists('bday',$data)){
             $this->bday = $data['bday'];
         }
-
+        if(array_key_exists('email',$data)){
+            $this->email = $data['email'];
+        }
+        if(array_key_exists('description',$data)){
+            $this->description = $data['description'];
+        }
         return $this;
     }
 
     public function store(){
         $repDate = str_replace("/","-",$this->bday);
         $date = date('Y-m-d', strtotime($repDate));
-        $sql = "INSERT INTO `birthday`(`name`, `bday`) VALUES ('{$this->name}', '{$date}')";
+        $sql = "INSERT INTO `birthday`(`name`, `bday`,`email`,`description`) VALUES ('{$this->name}', '{$date}','{$this->email}','{$this->description}')";
         $result = $this->conn->query($sql);
         if ($result){
             Message::message("<div class=\"alert alert-success\">Your are <strong>Success!</strong></div>");
@@ -74,14 +78,14 @@ class Birthday
     public function update(){
         $repDate = str_replace("/","-",$this->bday);
         $date = date("y-m-d", strtotime($repDate));
-        $sql = "UPDATE `birthday` SET `name`='{$this->name}', `bday`='{$date}' WHERE `id`={$this->id}";
+        $sql = "UPDATE `birthday` SET `name`='{$this->name}', `bday`='{$date}', `email` = '{$this->email}', `description`= '{$this->description}' WHERE `id`={$this->id}";
         $result = $this->conn->query($sql);
         if ($result){
             Message::message("<div class=\"alert alert-success\">Your are <strong>Success!</strong></div>");
             header("Location:index.php");
         }else{
             Message::message("<div class=\"alert alert-warning\">Your are <strong>Fail!</strong></div>");
-            //header("Location:index.php");
+            header("Location:index.php");
         }
     }
 
@@ -153,14 +157,14 @@ class Birthday
     }
 
     public function count(){
-        $sql = "SELECT COUNT(*) AS totalItem FROM `atomicprojectb20`.`birthday`";
+        $sql = "SELECT COUNT(*) AS totalItem FROM `atomicprojectb20`.`birthday` WHERE `trash_at` IS NULL";
         $result = $this->conn->query($sql);
         $row = $result->fetch_object();
         return $row->totalItem;
     }
 
     public function paginator($pageStartFrom=0,$limit=5){
-        $sql = "SELECT * FROM `birthday` LIMIT {$pageStartFrom},{$limit}";
+        $sql = "SELECT * FROM `birthday` WHERE `trash_at` IS NULL LIMIT {$pageStartFrom},{$limit}";
         $result = $this->conn->query($sql);
         $allBday = array();
         if($result){
@@ -170,13 +174,10 @@ class Birthday
         }
         return $allBday;
     }
-
-
+    
     public function __construct()
     {
         $this->conn = new \mysqli("localhost","root","","atomicprojectb20") or die("Sorry Connection Fail.");
     }
-
-
 
 }

@@ -42,6 +42,14 @@ $updateBook = $book->prepare($_GET)->edit();
                         <input type="text" name="title" value="<?php echo $updateBook->title;?>" class="form-control" id="pwd">
                         <input type="hidden" name="id" value="<?php echo $updateBook->id; ?>">
                     </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="text" name="email" class="form-control" id="email" value="<?php echo $updateBook->email;?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea name="description" id="description" rows="10"><?php echo $updateBook->description;?></textarea>
+                    </div>
                     <button type="submit" name="submit" class="btn btn-default">Submit</button>
                 </form>
             </div>
@@ -51,8 +59,14 @@ $updateBook = $book->prepare($_GET)->edit();
 
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="../../../resource/assets/js/jquery-3.1.0.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="../../../resource/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../../resource/tinymce_4.4.0/tinymce/js/tinymce/tinymce.min.js"></script>
+<script>
+    tinymce.init({
+        selector: 'textarea#description'
+    });
+</script>
 </body>
 </html>
