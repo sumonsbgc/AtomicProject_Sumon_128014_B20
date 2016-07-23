@@ -15,6 +15,9 @@ class Book
     public $trash_at;
     public $email;
     public $description;
+    public $filterByTitle;
+    public $filterByDescription;
+    public $search;
 
     public function prepare($data){
         if(array_key_exists("title",$data)){
@@ -32,6 +35,17 @@ class Book
         if(array_key_exists('description',$data)){
             $this->description = $data['description'];
         }
+
+        if (array_key_exists("filterByTitle", $data)) {
+            $this->filterByTitle = $data['filterByTitle'];
+        }
+        if (array_key_exists("filterByDescription", $data)) {
+            $this->filterByDescription = $data['filterByDescription'];
+        }
+        if (array_key_exists("search", $data)) {
+            $this->search = $data['search'];
+        }
+
         return $this;
     }
 
@@ -56,7 +70,20 @@ class Book
     }
 
     public function index(){
-        $sql = "SELECT * FROM `book` WHERE `trash_at` IS NULL";
+        $whereClause= " 1=1 ";
+        if(!empty($this->filterByTitle)) {
+            $whereClause .= " AND title LIKE '%".$this->filterByTitle."%'";
+        }
+
+        if(!empty($this->filterByDescription)){
+            $whereClause .= " AND description LIKE '%".$this->filterByDescription."%'";
+        }
+
+        if(!empty($this->search)){
+            $whereClause .= " AND description LIKE '%".$this->search."%' OR  title LIKE '%".$this->search."%'";
+        }
+
+        $sql = "SELECT * FROM `book` WHERE `trash_at` IS NULL AND ".$whereClause;
         $result = $this->conn->query($sql);
         $return = array();
         if ($result){
@@ -66,10 +93,27 @@ class Book
         }
         return $return;
     }
+    public function allName(){
+        $_allName= array();
+        $query="SELECT title FROM `book`";
+        $result= $this->conn->query($query);
 
-    public function create(){
-        return "I am creating";
+        while($row = $result->fetch_object()){
+            $_allName[]=$row->title;
+        }
+        return $_allName;
     }
+    public function allSummary(){
+        $_allName= array();
+        $query="SELECT description FROM `book`";
+        $result= $this->conn->query($query);
+
+        while($row = $result->fetch_object()){
+            $_allName[]=$row->description;
+        }
+        return $_allName;
+    }
+
 
     public function views(){
         $sql = "SELECT * FROM `book` WHERE `id`={$this->id}";

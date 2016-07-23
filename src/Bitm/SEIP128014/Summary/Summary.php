@@ -31,9 +31,7 @@ class Summary
         if (array_key_exists("summary",$data)){
             $this->summary = $data["summary"];
         }
-        if (array_key_exists("description", $data)) {
-            $this->description = $data['description'];
-        }
+
         if (array_key_exists("filterByTitle", $data)) {
             $this->filterByTitle = $data['filterByTitle'];
         }
