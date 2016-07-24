@@ -4,6 +4,15 @@ include_once("../../../vendor/autoload.php");
 use App\Bitm\SEIP128014\City\City;
 use App\Bitm\SEIP128014\Book\Message;
 $city = new City();
+
+$allName = $city->allName();
+$commaSeparated= implode('","',$allName);
+
+$allSummary = $city->allSummary();
+$commaSeparatedSummary = implode('","',$allSummary);
+
+
+
 if(array_key_exists('itemPerPage',$_SESSION)) {
 	if (array_key_exists('itemPerPage', $_GET)) {
 		$_SESSION['itemPerPage'] = $_GET['itemPerPage'];
@@ -30,7 +39,16 @@ for($i=1; $i<=$totalPage; $i++){
 }
 
 $pageStartFrom = $itemPerPage*($pageNumber-1);
-$cityList = $city->paginator($pageStartFrom,$itemPerPage);
+if(strtoupper($_SERVER['REQUEST_METHOD']=='GET')) {
+	$cityList = $city->paginator($pageStartFrom,$itemPerPage);
+}
+if(strtoupper($_SERVER['REQUEST_METHOD']=='POST')) {
+	$cityList = $city->prepare($_POST)->selectAll();
+}
+if(strtoupper(($_SERVER['REQUEST_METHOD']=='GET')) && isset($_GET['search'])) {
+	$cityList = $city->prepare($_GET)->selectAll();
+
+}
 
 ?>
 <!DOCTYPE html>
@@ -77,16 +95,16 @@ $cityList = $city->paginator($pageStartFrom,$itemPerPage);
 						<div class="form-group-sm form-inline">
 							<label for="title">Filter by Title:</label>
 							<input class="form-control" type="text" name="filterByTitle" value="" id="title">
-							<label  for="description">Filter by Description:</label>
-							<input class="form-control" type="text" name="filterByDescription" value="" id="description">
-							<button type="submit" class="btn-success btn" name="filter">Submit!</button>
+							<label  for="summary">Filter by Description:</label>
+							<input class="form-control" type="text" name="filterByDescription" value="" id="summary">
+							<button type="submit" class="btn-success btn">Submit!</button>
 						</div>
 					</form>
 					<form role="form" action="index.php" method="get">
 						<div class="form-group-sm form-inline">
 							<label for="search">Search:</label>
 							<input class="form-control" type="text" name="search" value="" id="search">
-							<button class="btn btn-success" type="submit" name="search">Search</button>
+							<button class="btn btn-success" type="submit">Search</button>
 						</div>
 					</form>
 				</div>
@@ -138,6 +156,7 @@ $cityList = $city->paginator($pageStartFrom,$itemPerPage);
 						</tbody>
 					</table>
 				</div>
+				<?php if((strtoupper($_SERVER['REQUEST_METHOD']=='GET'))&&(empty($_GET['search']))) { ?>
 				<ul class="pagination">
 					<?php if( $pageNumber > 1 ): ?>
 						<li><a href="index.php?pageNumber=<?php $prev = $pageNumber-1; echo $prev; ?>">Prev</a></li>
@@ -149,6 +168,7 @@ $cityList = $city->paginator($pageStartFrom,$itemPerPage);
 						<li><a href="index.php?pageNumber=<?php $next = $pageNumber+1; echo $next;?>">Next</a></li>
 					<?php endif; ?>
 				</ul>
+				<?php } ?>
 			</div>
 		</div>
 	</div>    
@@ -156,8 +176,32 @@ $cityList = $city->paginator($pageStartFrom,$itemPerPage);
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="../../../resource/bootstrap/js/bootstrap.min.js"></script>
-  	<script>
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+	<link rel="stylesheet" href="/resources/demos/style.css">
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+
+	<script>
   		jQuery("#message").show().delay(3000).fadeOut();
   	</script>
+	<script>
+		$( function() {
+			var name = [ <?php echo '"'.$commaSeparated.'"'; ?> ];
+			var summary = [ <?php echo '"'.$commaSeparatedSummary.'"'; ?> ];
+			var allSummary = [ <?php echo '"'.$commaSeparated.' '.$commaSeparatedSummary.'"'?>];
+
+			$( "#title" ).autocomplete({
+				source: name
+			});
+
+			$("#summary").autocomplete({
+				source: summary
+			});
+
+			$("#search").autocomplete({
+				source: allSummary
+			})
+		} );
+	</script>
   </body>
 </html>

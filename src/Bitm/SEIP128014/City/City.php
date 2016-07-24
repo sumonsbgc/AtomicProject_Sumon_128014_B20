@@ -10,7 +10,9 @@ class City{
 	public $conn;
 	public $email;
 	public $description;
-
+	public $filterByTitle;
+	public $filterByDescription;
+	public $search;
 	public function __construct()
 	{
 		$this->conn = new \mysqli("localhost","root","","atomicprojectb20") or die("Sorry Your connection fail.");
@@ -34,6 +36,16 @@ class City{
 		}
 		if(array_key_exists('description',$data)){
 			$this->description = $data['description'];
+		}
+
+		if (array_key_exists("filterByTitle", $data)) {
+			$this->filterByTitle = $data['filterByTitle'];
+		}
+		if (array_key_exists("filterByDescription", $data)) {
+			$this->filterByDescription = $data['filterByDescription'];
+		}
+		if (array_key_exists("search", $data)) {
+			$this->search = $data['search'];
 		}
 		return $this;
 	}
@@ -78,7 +90,20 @@ class City{
 
 
 	public function selectAll(){
-		$sql = "SELECT * FROM `city` WHERE `trash_at` IS NULL";
+		$whereClause= " 1=1 ";
+		if(!empty($this->filterByTitle)) {
+			$whereClause .= " AND name LIKE '%".$this->filterByTitle."%'";
+		}
+
+		if(!empty($this->filterByDescription)){
+			$whereClause .= " AND city LIKE '%".$this->filterByDescription."%'";
+		}
+
+		if(!empty($this->search)){
+			$whereClause .= " AND city LIKE '%".$this->search."%' OR  name LIKE '%".$this->search."%'";
+		}
+
+		$sql = "SELECT * FROM `city` WHERE `trash_at` IS NULL AND ".$whereClause;
 		$result = $this->conn->query($sql);
 		$data = array();
 		if ($result) {
@@ -87,6 +112,26 @@ class City{
 			}
 		}
 		return $data;
+	}
+	public function allName(){
+		$_allName= array();
+		$query="SELECT name FROM `city`";
+		$result= $this->conn->query($query);
+
+		while($row = $result->fetch_object()){
+			$_allName[]=$row->name;
+		}
+		return $_allName;
+	}
+	public function allSummary(){
+		$_allName= array();
+		$query="SELECT city FROM `city`";
+		$result= $this->conn->query($query);
+
+		while($row = $result->fetch_object()){
+			$_allName[]=$row->city;
+		}
+		return $_allName;
 	}
 
 

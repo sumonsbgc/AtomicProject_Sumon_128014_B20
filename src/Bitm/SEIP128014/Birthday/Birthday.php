@@ -10,6 +10,9 @@ class Birthday
     public $conn;
     public $email;
     public $description;
+    public $filterByTitle;
+    public $filterByDescription;
+    public $search;
 
     public function prepare(array $data){
         if (array_key_exists('name',$data)){
@@ -27,6 +30,16 @@ class Birthday
         if(array_key_exists('description',$data)){
             $this->description = $data['description'];
         }
+        if (array_key_exists("filterByTitle", $data)) {
+            $this->filterByTitle = $data['filterByTitle'];
+        }
+        if (array_key_exists("filterByDescription", $data)) {
+            $this->filterByDescription = $data['filterByDescription'];
+        }
+        if (array_key_exists("search", $data)) {
+            $this->search = $data['search'];
+        }
+
         return $this;
     }
 
@@ -45,7 +58,20 @@ class Birthday
     }
 
     public function selectAll(){
-        $sql = "SELECT * FROM `birthday` WHERE `trash_at` IS NULL";
+        $whereClause= " 1=1 ";
+        if(!empty($this->filterByTitle)) {
+            $whereClause .= " AND name LIKE '%".$this->filterByTitle."%'";
+        }
+
+        if(!empty($this->filterByDescription)){
+            $whereClause .= " AND description LIKE '%".$this->filterByDescription."%'";
+        }
+
+        if(!empty($this->search)){
+            $whereClause .= " AND description LIKE '%".$this->search."%' OR name LIKE '%".$this->search."%'";
+        }
+
+        $sql = "SELECT * FROM `birthday` WHERE `trash_at` IS NULL".$whereClause;
         $result = $this->conn->query($sql);
         $bdData = array();
         if ($result){
@@ -55,6 +81,29 @@ class Birthday
         }
         return $bdData;
     }
+
+    public function allName(){
+        $_allName= array();
+        $query="SELECT name FROM `birthday`";
+        $result= $this->conn->query($query);
+
+        while($row = $result->fetch_object()){
+            $_allName[]=$row->name;
+        }
+        return $_allName;
+    }
+    public function allSummary(){
+        $_allName= array();
+        $query="SELECT description FROM `birthday`";
+        $result= $this->conn->query($query);
+
+        while($row = $result->fetch_object()){
+            $_allName[]=$row->description;
+        }
+        return $_allName;
+    }
+
+
 
     public function selectById(){
         $sql = "SELECT * FROM `birthday` WHERE `id` = {$this->id}";

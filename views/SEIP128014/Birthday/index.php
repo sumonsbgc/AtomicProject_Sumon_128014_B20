@@ -5,6 +5,12 @@ use App\Bitm\SEIP128014\Birthday\Birthday;
 use App\Bitm\SEIP128014\Book\Message;
 $birthday = new Birthday();
 
+$allName = $birthday->allName();
+$commaSeparated= implode('","',$allName);
+
+$allSummary = $birthday->allSummary();
+$commaSeparatedSummary = implode('","',$allSummary);
+
 if(array_key_exists('itemPerPage',$_SESSION)) {
     if (array_key_exists('itemPerPage', $_GET)) {
         $_SESSION['itemPerPage'] = $_GET['itemPerPage'];
@@ -31,7 +37,17 @@ for($i=1; $i<=$totalPage; $i++){
 }
 
 $pageStartFrom = $itemPerPage*($pageNumber-1);
-$bdData = $birthday->paginator($pageStartFrom,$itemPerPage);
+if(strtoupper($_SERVER['REQUEST_METHOD']=='GET')) {
+    $bdData = $birthday->paginator($pageStartFrom,$itemPerPage);
+}
+if(strtoupper($_SERVER['REQUEST_METHOD']=='POST')) {
+    $bdData = $birthday->prepare($_POST)->selectAll();
+}
+if(strtoupper(($_SERVER['REQUEST_METHOD']=='GET')) && isset($_GET['search'])) {
+    $bdData = $birthday->prepare($_GET)->selectAll();
+}
+
+
 
 ?>
 <!DOCTYPE html>
@@ -86,15 +102,15 @@ $bdData = $birthday->paginator($pageStartFrom,$itemPerPage);
                         <label for="title">Filter by Title:</label>
                         <input class="form-control" type="text" name="filterByTitle" value="" id="title">
                         <label  for="description">Filter by Description:</label>
-                        <input class="form-control" type="text" name="filterByDescription" value="" id="description">
-                        <button type="submit" class="btn-success btn" name="filter">Submit!</button>
+                        <input class="form-control" type="text" name="filterByDescription" value="" id="summary">
+                        <button type="submit" class="btn-success btn">Submit!</button>
                     </div>
                 </form>
                 <form role="form" action="index.php" method="get">
                     <div class="form-group-sm form-inline">
                         <label for="search">Search:</label>
                         <input class="form-control" type="text" name="search" value="" id="search">
-                        <button class="btn btn-success" type="submit" name="search">Search</button>
+                        <button class="btn btn-success" type="submit">Search</button>
                     </div>
                 </form>
             </div>
@@ -156,6 +172,7 @@ $bdData = $birthday->paginator($pageStartFrom,$itemPerPage);
                     </tbody>
                 </table>
             </div>
+            <?php if((strtoupper($_SERVER['REQUEST_METHOD']=='GET'))&&(empty($_GET['search']))) { ?>
             <ul class="pagination">
                 <?php if( $pageNumber > 1 ): ?>
                     <li><a href="index.php?pageNumber=<?php $prev = $pageNumber-1; echo $prev; ?>">Prev</a></li>
@@ -167,6 +184,7 @@ $bdData = $birthday->paginator($pageStartFrom,$itemPerPage);
                     <li><a href="index.php?pageNumber=<?php $next = $pageNumber+1; echo $next;?>">Next</a></li>
                 <?php endif; ?>
             </ul>
+            <?php } ?>
         </div>
     </div>
 </div>
@@ -174,11 +192,35 @@ $bdData = $birthday->paginator($pageStartFrom,$itemPerPage);
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="../../../resource/bootstrap/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+
 <script type="text/javascript">
     jQuery("#message").show().delay(3000).fadeOut();
     function alertDelete(){
         confirm("Are You sure? You are deleting One Item.");
     }
+</script>
+<script>
+    $( function() {
+        var name = [ <?php echo '"'.$commaSeparated.'"'; ?> ];
+        var summary = [ <?php echo '"'.$commaSeparatedSummary.'"'; ?> ];
+        var allSummary = [ <?php echo '"'.$commaSeparated.' '.$commaSeparatedSummary.'"'?>];
+
+        $( "#title" ).autocomplete({
+            source: name
+        });
+
+        $("#summary").autocomplete({
+            source: summary
+        });
+
+        $("#search").autocomplete({
+            source: allSummary
+        })
+    } );
 </script>
 </body>
 </html>
